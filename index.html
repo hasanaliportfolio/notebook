@@ -1,0 +1,1642 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Hasan's Notebook</title><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Notebook"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="theme-color" content="#F3F5F4"><meta name="robots" content="noindex,nofollow"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@500;600;700;800&family=Hind+Siliguri:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&text=%E0%A7%A6%E0%A7%A7%E0%A7%A8%E0%A7%A9%E0%A7%AA%E0%A7%AB%E0%A7%AC%E0%A7%AD%E0%A7%AE%E0%A7%AF&display=swap">
+<style>
+/* Layout: desktop = fixed left workspace sidebar + content column; phone = single column + bottom tab bar. Paper-and-ink notebook with a saffron pen accent and teal for "done/saved". */
+:root{
+  --bg:#F3F5F4; --surface:#FFFFFF; --surface-2:#E9EEEC; --line:#D5DDDA;
+  --fg:#16201E; --muted:#5B6966; --faint:#8A9894;
+  --accent:#E2571B; --accent-ink:#B4440F; --accent-soft:#FBE7DC;
+  --teal:#0F7C74; --teal-soft:#E1EFED;
+  --urgent:#C7302B; --urgent-soft:#F9E0DE; --med:#8F6A04; --med-soft:#F6EDD5;
+  --shadow:0 1px 2px rgba(22,32,30,.06),0 6px 20px rgba(22,32,30,.06);
+  --display:'Anek Bangla','Noto Sans Bengali',system-ui,sans-serif;
+  --body:'Noto Sans Bengali','Hind Siliguri',system-ui,sans-serif;
+  --r:14px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --surface:#0E0E0E; --surface-2:#1A1A1A; --line:#2A2A2A;
+  --fg:#FFFFFF; --muted:#B5BDBA; --faint:#808886;
+  --accent:#F0773F; --accent-ink:#F59A6B; --accent-soft:#3A2418;
+  --teal:#45B8AD; --teal-soft:#16322F;
+  --urgent:#F0716B; --urgent-soft:#3C1E1D; --med:#E2B84A; --med-soft:#3A3120;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --surface:#0E0E0E; --surface-2:#1A1A1A; --line:#2A2A2A;
+  --fg:#FFFFFF; --muted:#B5BDBA; --faint:#808886;
+  --accent:#F0773F; --accent-ink:#F59A6B; --accent-soft:#3A2418;
+  --teal:#45B8AD; --teal-soft:#16322F;
+  --urgent:#F0716B; --urgent-soft:#3C1E1D; --med:#E2B84A; --med-soft:#3A3120;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25); color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55}
+*{box-sizing:border-box}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+a{color:var(--teal)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+.app{display:flex;min-height:100%}
+/* sidebar */
+.side{width:286px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--line);height:100vh;position:sticky;top:0;overflow-y:auto;padding:18px 12px 24px;display:flex;flex-direction:column;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;padding:0 6px}
+.brand-mark{width:38px;height:38px;flex-shrink:0;display:block}
+.brand-mark svg{width:100%;height:100%;display:block}
+.mbrand{display:none;align-items:center;gap:10px}
+.mbrand b{font-family:var(--display);font-weight:800;font-size:17px;line-height:1.1;display:block}
+.mbrand small{color:var(--muted);font-size:12px}
+@media (max-width:899px){.mbrand{display:flex}}
+.sheet h3 svg,.card h3 svg{width:20px;height:20px;vertical-align:-4px;flex-shrink:0}
+.remind{background:var(--teal-soft);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.remind h3{font-size:17px;font-weight:700;color:var(--teal);display:flex;align-items:center;justify-content:space-between;gap:8px}
+.remind .link{border:0;background:none;padding:0;font-family:var(--body);font-size:13px;font-weight:600;color:var(--teal)}
+.bigbtn{min-height:52px;font-size:16px;justify-content:center;width:100%;white-space:normal;text-align:center}
+.rem-row{display:flex;flex-direction:column;gap:8px;border:1.5px dashed var(--line);border-radius:12px;padding:10px}
+.rem-row .lbl{font-weight:600;font-size:14px;display:flex;align-items:center;gap:6px}
+.rem-row .lbl svg{width:18px;height:18px;color:var(--accent)}
+.brand b{font-family:var(--display);font-weight:800;font-size:18px;display:block;line-height:1.1}
+.brand small{color:var(--muted);font-size:12px}
+.searchbtn{display:flex;align-items:center;gap:8px;width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;color:var(--muted);text-align:left;font-size:14px}
+.searchbtn svg{width:16px;height:16px;flex-shrink:0}
+.searchbtn kbd{margin-left:auto;font-size:11px;border:1px solid var(--line);border-radius:5px;padding:0 5px;background:var(--surface)}
+.navgrp{display:flex;flex-direction:column;gap:1px}
+.pinrow{display:flex;align-items:center;gap:2px}.pinrow .nav{flex:1;min-width:0}.pinrow .nav span.tt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pinrow .unpin{border:0;background:none;color:var(--faint);width:28px;height:28px;border-radius:6px;display:grid;place-items:center;flex:none}.pinrow .unpin:hover{background:var(--surface-2);color:var(--fg)}.pinrow .unpin svg{width:15px;height:15px}
+.vwrap{position:relative}.vwrap .vpin{position:absolute;top:6px;right:6px;border:0;background:none;color:var(--faint);width:28px;height:28px;border-radius:6px;display:grid;place-items:center}.vwrap .vpin svg{width:15px;height:15px}.vwrap .vpin.on{color:var(--accent)}.vwrap .vcard{padding-right:34px}.vcard.pinned{box-shadow:inset 3px 0 0 var(--accent)}
+.navlabel{font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--faint);padding:6px 8px 4px;display:flex;align-items:center;justify-content:space-between}
+.navlabel button{border:0;background:none;color:var(--muted);font-size:18px;line-height:1;padding:0 4px;border-radius:6px}
+.nav{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:8px;border:0;background:none;width:100%;text-align:left;font-size:14px;color:var(--fg);min-height:34px}
+.nav:hover{background:var(--surface-2)}
+.nav.on{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+.nav svg{width:18px;height:18px;flex-shrink:0;color:var(--muted)}
+.nav.on svg{color:var(--accent-ink)}
+.nav .cnt{margin-left:auto;font-size:12px;color:var(--faint);font-variant-numeric:tabular-nums}
+.tree .nav{padding-left:calc(8px + var(--d,0) * 14px)}
+.twist{width:16px;height:16px;border:0;background:none;padding:0;color:var(--faint);display:grid;place-items:center;flex-shrink:0;border-radius:4px}
+.twist svg{width:12px;height:12px;transition:transform .15s}
+.twist.open svg{transform:rotate(90deg)}
+.dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
+.sync{margin-top:auto;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;padding:0 8px}
+.sync i{width:8px;height:8px;border-radius:50%;background:var(--teal)}
+.sync.local i{background:var(--accent)}
+/* main */
+.main{flex:1;min-width:0;padding-block:24px 110px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.wrap.narrow{max-width:720px}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.eyebrow{font-size:13px;color:var(--muted)}
+.h1{font-family:var(--display);font-weight:800;font-size:clamp(26px,5vw,34px);line-height:1.1}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:14px;align-items:start}
+.hgrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px;align-items:start;grid-auto-flow:row dense}.hgrid>div{min-width:0}
+.hgrid>*{margin:0}.hgrid>.s6{grid-column:span 6}.hgrid>.s4{grid-column:span 4}.hgrid>.s3{grid-column:span 3}.hgrid>.s2{grid-column:span 2}
+@media (max-width:1120px){.hgrid>.s4{grid-column:span 6}.hgrid>.s2{grid-column:span 3}}
+@media (max-width:600px){.hgrid>*{grid-column:span 6 !important}}
+.pipe-mini{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px}.pipe-mini .row{padding:6px 10px;border-radius:10px;background:var(--surface-2)}
+.card{background:var(--surface);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.card.lift{box-shadow:var(--shadow)}
+.card h3{font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card h3 .link{font-family:var(--body);font-size:13px;font-weight:500;color:var(--teal);border:0;background:none;padding:0}
+.btn{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:0 14px;min-height:40px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{border-color:var(--faint)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.teal{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.sm{min-height:32px;padding:0 10px;font-size:13px;border-radius:8px}
+.btn svg{width:16px;height:16px;flex-shrink:0}
+a.btn{text-decoration:none;color:var(--fg)}
+.btn[disabled]{opacity:.55;cursor:default}
+.iconbtn{width:36px;height:36px;border-radius:9px;border:0;background:none;display:grid;place-items:center;color:var(--muted);flex-shrink:0}
+.iconbtn:hover{background:var(--surface-2);color:var(--fg)}
+.iconbtn svg{width:19px;height:19px}
+.iconbtn.on{color:var(--accent)}
+.field{width:100%;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);padding:9px 12px;min-height:44px;font-size:15px}
+.field:focus{border-color:var(--accent);outline:none}
+textarea.field{resize:none;line-height:1.55}
+select.field{min-height:38px;padding:6px 10px;font-size:14px;width:auto}
+.capture{display:flex;gap:8px;align-items:flex-end}
+.capture .field{flex:1;min-width:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 12px;min-height:32px;font-size:13px;display:inline-flex;align-items:center;gap:5px}
+.chip.on{background:var(--fg);border-color:var(--fg);color:var(--bg);font-weight:600}
+.pill{font-size:11.5px;font-weight:600;border-radius:999px;padding:1px 8px;white-space:nowrap;background:var(--surface-2);color:var(--muted)}
+.p-urgent{background:var(--urgent-soft);color:var(--urgent)}
+.p-high{background:var(--accent-soft);color:var(--accent-ink)}
+.p-medium{background:var(--med-soft);color:var(--med)}
+.p-low{background:var(--surface-2);color:var(--muted)}
+.s-draft{background:var(--med-soft);color:var(--med)}
+.s-working{background:var(--accent-soft);color:var(--accent-ink)}
+.s-done{background:var(--teal-soft);color:var(--teal)}
+.s-cancelled{background:var(--surface-2);color:var(--faint);text-decoration:line-through}
+.list{display:flex;flex-direction:column;gap:6px}
+.agegrp{display:flex;flex-direction:column;gap:6px}
+.agelbl{font-size:13px;font-weight:700;color:var(--muted);padding:6px 2px 0;display:flex;gap:6px;align-items:baseline}
+.agelbl span{font-weight:500;color:var(--faint);font-size:12px}
+.dash-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.dash-grid,.dash-col{display:flex;flex-direction:column;gap:12px;min-width:0}
+@media(min-width:900px){.dash-tiles{grid-template-columns:repeat(4,minmax(0,1fr))}.dash-grid{display:grid;grid-template-columns:1fr 1fr;align-items:start}}
+.tile{background:var(--surface);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tile b{font-size:26px;line-height:1.2}
+.tile span{font-size:12.5px;color:var(--muted)}
+.sbar{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--surface-2)}
+.sbar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.drow{display:flex;flex-direction:column;gap:5px;padding:7px 0;border:0;border-top:1px solid var(--line);background:none;text-align:left;font:inherit;color:inherit;width:100%}
+button.drow{cursor:pointer}
+.card h3+.drow{border-top:0}
+.drow .h{display:flex;justify-content:space-between;gap:8px;font-size:14px;min-width:0}
+.drow .h small{color:var(--muted);font-size:12.5px;white-space:nowrap}
+.mbars{display:flex;align-items:flex-end;gap:4px;height:120px}
+.mbars div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%;min-width:0}
+.mbars div i{display:block;width:100%;max-width:26px;background:var(--accent);border-radius:4px 4px 0 0;min-height:2px}
+.mbars div small{font-size:10.5px;color:var(--faint);white-space:nowrap}
+.mbars div em{font-style:normal;font-size:10.5px;color:var(--muted)}
+.wbars{display:flex;align-items:flex-end;gap:3px;height:130px}
+.wbars>div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;height:100%;min-width:0}
+.wbars .stk{display:flex;flex-direction:column-reverse;width:100%;max-width:22px;border-radius:4px 4px 0 0;overflow:hidden;gap:1px}
+.wbars .stk i{display:block;min-height:3px}
+.wbars .nodot{width:7px;height:7px;border-radius:50%;background:var(--line)}.wbars .nodot.on{background:var(--teal)}
+.wbars small{font-size:10.5px;color:var(--faint);white-space:nowrap}.wbars small.tday{color:var(--accent);font-weight:600}
+.wbars em{font-style:normal;font-size:10.5px;color:var(--muted)}
+.wsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}
+.wsum>div{background:var(--surface-2);border-radius:10px;padding:8px 10px;display:flex;flex-direction:column}
+.wsum b{font-family:var(--display);font-size:20px;line-height:1.2}.wsum span{font-size:12px;color:var(--muted)}
+h4.sub{margin:6px 0 0;font-size:13.5px;color:var(--muted);font-weight:600}
+.item{background:var(--surface);border-radius:12px;padding:10px 8px 10px 12px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;min-width:0;border:1px solid transparent}
+.item:hover{border-color:var(--line)}
+.item .acts{display:flex;gap:4px;align-items:center;margin-left:auto}
+.item .main-hit{flex:1 1 200px;min-width:0;border:0;background:none;text-align:left;padding:0;display:flex;flex-direction:column;gap:2px}
+.item .t{font-weight:500;font-size:14.5px;overflow-wrap:break-word;word-break:normal}
+@media(max-width:600px){.item .btn.sm .lbl{display:none}.item .btn.sm{padding:0 9px}}
+.dghost{position:fixed;left:0;top:0;z-index:200;pointer-events:none;background:var(--surface);border:1.5px solid var(--accent);border-radius:10px;padding:7px 12px;font-size:14px;box-shadow:var(--shadow);max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+[data-drag]{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.dragging{opacity:.35}
+.drop-in{outline:2px solid var(--accent);outline-offset:-2px;background:var(--accent-soft)!important}
+.drop-before{box-shadow:inset 0 3px 0 var(--accent)!important}
+.drop-after{box-shadow:inset 0 -3px 0 var(--accent)!important}
+.fmtbar{display:flex;flex-wrap:wrap;gap:4px;align-items:center;position:sticky;top:0;z-index:5;background:var(--bg);padding:6px 0}
+.fmtbar button{min-width:36px;height:36px;border-radius:9px;border:1px solid var(--line);background:var(--surface);color:var(--fg);font:inherit;font-size:15px;display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer}
+.fmtbar .sw{width:26px;min-width:26px;height:26px;border-radius:50%;padding:0;border:2px solid var(--surface)}
+.fmtbar .sep{width:1px;height:22px;background:var(--line);margin:0 4px}
+.ed-body{white-space:pre-wrap;overflow-wrap:break-word}
+.ed-body:empty:before{content:attr(data-ph);color:var(--faint)}
+.ed-body h3{font-size:1.1em;font-weight:700;margin:.4em 0}
+.ed-body ul,.ed-body ol{padding-left:1.4em}
+.ed-body img{display:block;max-width:100%;height:auto;border-radius:10px;margin:.6em 0;background:var(--surface-2);min-height:40px}
+:root.fs-sm .ed-body{font-size:14px}:root.fs-lg .ed-body{font-size:17.5px}
+.set-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-top:1px solid var(--line);font-size:15px}
+.card h3+.set-row,.card .hint+.set-row{border-top:0}
+.set-row .grow{flex:1;min-width:0}
+.set-row input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent)}
+.hint{font-size:13px;color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--surface);color:var(--fg);font:inherit;font-size:14px;padding:7px 12px;cursor:pointer}
+.seg button.on{background:var(--accent);color:#fff}
+.accents{display:flex;gap:8px;flex-wrap:wrap}
+.accents button{width:32px;height:32px;border-radius:50%;border:3px solid var(--surface);cursor:pointer;box-shadow:0 0 0 1px var(--line)}
+.accents button.on{box-shadow:0 0 0 2px var(--fg)}
+.item .s{font-size:12.5px;color:var(--muted);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow-wrap:anywhere}
+.item .meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:12px;color:var(--faint)}
+.check{width:24px;height:24px;border-radius:7px;border:2px solid var(--line);background:none;flex-shrink:0;display:grid;place-items:center;padding:0}
+.check.p-urgent,.check.p-high{border-color:var(--accent)}
+.check.done{background:var(--teal);border-color:var(--teal)}
+.check svg{width:14px;height:14px;color:#fff}
+.done-t{text-decoration:line-through;color:var(--faint)}
+.folders{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.folder{background:var(--surface);border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;border:1px solid transparent;text-align:left;min-width:0}
+.folder:hover{border-color:var(--line)}
+.folder .fi{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex-shrink:0;color:#fff}
+.folder .fi svg{width:18px;height:18px}
+.folder b{display:block;font-size:14.5px;overflow-wrap:anywhere}
+.folder small{color:var(--muted);font-size:12px}
+.backbar{margin:0 0 10px;position:sticky;top:calc(8px + env(safe-area-inset-top,0px));z-index:20;width:fit-content}
+.backbtn{box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.backbtn{display:inline-flex;align-items:center;gap:4px;min-height:40px;padding:0 14px 0 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--fg);font-family:var(--body);font-size:15px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.backbtn svg{width:20px;height:20px}
+.backbtn:hover{background:var(--surface-2)}
+.backbtn:active{transform:scale(.97)}
+.crumbs{display:flex;gap:4px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.crumbs button{border:0;background:none;color:var(--muted);padding:2px 4px;border-radius:6px}
+.crumbs button:hover{background:var(--surface-2);color:var(--fg)}
+.empty{border:1.5px dashed var(--line);border-radius:12px;padding:18px;text-align:center;color:var(--muted);font-size:14px}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:11px;padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:8px;padding:6px 14px;font-weight:600;font-size:14px;color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--fg);box-shadow:var(--shadow)}
+/* editor */
+.ed-title{width:100%;border:0;background:none;font-family:var(--display);font-weight:700;font-size:clamp(20px,3.6vw,23px);line-height:1.35;padding:0;resize:none;outline:none}
+.ed-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ed-meta label{display:flex;flex-direction:column;gap:2px;font-size:11.5px;color:var(--faint);font-weight:600}
+.ed-body{width:100%;min-height:50vh;border:0;background:var(--surface);border-radius:var(--r);padding:16px;font-size:15.5px;line-height:1.75;resize:none;outline:none}
+.ed-body:focus{box-shadow:0 0 0 2px var(--accent-soft)}
+.ed-foot{display:flex;justify-content:space-between;font-size:12.5px;color:var(--faint);flex-wrap:wrap;gap:8px}
+input[type=range]{accent-color:var(--accent)}
+/* streak */
+.streak{display:flex;align-items:center;gap:14px}
+.streak .n{font-family:var(--display);font-weight:800;font-size:40px;color:var(--accent);line-height:1}
+.days{display:grid;grid-template-columns:repeat(14,1fr);gap:4px;flex:1}
+.days i{aspect-ratio:1;border-radius:4px;background:var(--surface-2);max-width:100%}
+.days i.on{background:var(--accent)}
+.days i.today{outline:2px solid var(--fg);outline-offset:1px}
+/* log */
+.log{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.log div{position:relative;padding:4px 0 8px 14px;font-size:14px;overflow-wrap:anywhere}
+.log div::before{content:"";position:absolute;left:-6px;top:11px;width:10px;height:10px;border-radius:50%;background:var(--teal)}
+.log small{color:var(--faint);font-size:12px;display:block}
+/* pipeline */
+.board-scroll{overflow-x:auto;margin-inline:-4px;padding:2px 4px 8px}
+.board{display:grid;grid-template-columns:repeat(5,minmax(200px,1fr));gap:10px;min-width:1050px}
+.col{background:var(--surface-2);border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.col h4{margin:0;font-family:var(--display);font-size:15px;display:flex;justify-content:space-between}
+.vcard{background:var(--surface);border-radius:10px;padding:9px 10px;border:0;text-align:left;display:flex;flex-direction:column;gap:4px;width:100%}
+.vcard b{font-size:14px;overflow-wrap:anywhere}
+.stagebar{display:flex;gap:4px}
+.stagebar i{flex:1;height:6px;border-radius:3px;background:var(--surface-2)}
+.stagebar i.on{background:var(--accent)}
+/* timeline */
+.tl-day{display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px}
+.tl-date{font-family:var(--display);text-align:right}
+.tl-date b{display:block;font-size:26px;line-height:1;font-weight:800}
+.tl-date small{color:var(--muted);font-size:12px}
+/* mind map */
+.mm-wrap{background:var(--surface);border-radius:var(--r);overflow:auto;max-height:70vh}
+.mm-wrap svg text{font-family:var(--body);font-size:14px;fill:var(--fg)}
+.mm-node rect{fill:var(--surface-2);stroke:var(--line)}
+.mm-node.root rect{fill:var(--accent);stroke:var(--accent)}
+.mm-node.root text{fill:#fff;font-weight:600}
+.mm-node{cursor:pointer}
+.mm-node:hover rect{stroke:var(--accent)}
+.mm-link{fill:none;stroke:var(--faint);stroke-width:1.5}
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(10,16,14,.42);z-index:40;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:520px;border-radius:18px 18px 0 0;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:10px;max-height:85vh;overflow-y:auto}
+@media (min-width:700px){.scrim{align-items:center}.sheet{border-radius:18px}}
+.sheet h3{font-size:18px}
+.menu{display:flex;flex-direction:column}
+.menu button{border:0;background:none;text-align:left;padding:11px 8px;border-radius:9px;font-size:15px;display:flex;gap:10px;align-items:center}
+.menu button:hover{background:var(--surface-2)}
+.menu button.danger{color:var(--urgent)}
+.menu svg{width:18px;height:18px;color:var(--muted)}
+.swatches{display:flex;gap:8px;flex-wrap:wrap;padding:4px 8px}
+.swatches button{width:30px;height:30px;border-radius:9px;border:2px solid transparent}
+.swatches button.on{border-color:var(--fg)}
+/* search */
+.search-top{display:flex;gap:8px;align-items:center}
+.search-top .field{font-size:17px;min-height:50px}
+mark{background:var(--accent-soft);color:var(--accent-ink);border-radius:3px;padding:0 1px}
+.res-group{font-size:12px;font-weight:600;letter-spacing:.05em;color:var(--faint);margin-top:6px}
+/* toast */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(90px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:9px 16px;border-radius:10px;font-size:14px;z-index:60;max-width:calc(100% - 32px)}
+/* tab bar */
+.tabs{display:none}
+@media (max-width:899px){
+  .side{display:none}
+  .tabs{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:30;grid-template-columns:repeat(5,minmax(0,1fr));background:var(--surface);border-top:1px solid var(--line);padding:6px max(4px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(4px,env(safe-area-inset-left,0px))}
+  .tabs button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--muted);padding:4px 0;min-height:48px}
+  .tabs button svg{width:22px;height:22px}
+  .tabs button.on{color:var(--accent);font-weight:600}
+  .main{padding-top:18px}
+  .grid{grid-template-columns:minmax(0,1fr)}
+}
+.more-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.more-grid .nav{background:var(--surface);border-radius:12px;padding:12px;min-height:48px}
+.loading{color:var(--muted);padding:40px 0;text-align:center}
+.banner{background:var(--med-soft);color:var(--med);border-radius:10px;padding:8px 12px;font-size:13px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="app">
+  <aside class="side" id="side"></aside>
+  <main class="main" id="main"><div class="loading">খাতা খোলা হচ্ছে…</div></main>
+  <nav class="tabs" id="tabs"></nav>
+</div>
+<div id="layer"></div>
+
+<script>
+(function(){
+'use strict';
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const bn = s => String(s).replace(/\d/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+const pad = n => String(n).padStart(2,'0');
+const dkey = (d = new Date()) => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,8);
+const MONTHS = ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'];
+const DAYS = ['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'];
+const fmtDate = ts => { const d = new Date(ts); return bn(d.getDate())+' '+MONTHS[d.getMonth()]+(d.getFullYear() !== new Date().getFullYear() ? ' '+bn(d.getFullYear()) : ''); };
+const fmtTime = ts => { const d = new Date(ts); const h = d.getHours(); const part = h<5?'রাত':h<12?'সকাল':h<15?'দুপুর':h<18?'বিকাল':h<20?'সন্ধ্যা':'রাত'; return part+' '+bn((h%12)||12)+':'+bn(pad(d.getMinutes())); };
+const ago = ts => { if(!ts) return ''; const m = Math.round((Date.now()-ts)/60000); if(m<1) return 'এইমাত্র'; if(m<60) return bn(m)+' মিনিট আগে'; const h = Math.round(m/60); if(h<24) return bn(h)+' ঘণ্টা আগে'; if(h<48) return 'গতকাল'; return fmtDate(ts); };
+const words = s => (String(s||'').trim().match(/\S+/g) || []).length;
+const tryLS = (k, v) => { try { if(v === undefined) return JSON.parse(localStorage.getItem(k)); localStorage.setItem(k, JSON.stringify(v)); } catch(e){ return null; } };
+
+const STATUS = {idea:'আইডিয়া', draft:'ড্রাফট', working:'কাজ চলছে', done:'সম্পন্ন', cancelled:'বাতিল'};
+const PRIO = {urgent:'জরুরি', high:'বেশি', medium:'মাঝারি', low:'কম'};
+const PRANK = {urgent:0, high:1, medium:2, low:3};
+const STAGES = [['idea','আইডিয়া'],['script','স্ক্রিপ্টিং'],['shoot','শুটিং'],['edit','এডিটিং'],['up','আপলোডেড']];
+const CHANNELS = ['নিজের চ্যানেল','ফ্লাই উমরাহ','ক্লায়েন্ট'];
+const FORMATS = ['শর্টস/রিলস','লং ভিডিও','পডকাস্ট','ভ্লগ'];
+// Hasan can edit both lists in settings; these are the defaults
+const chans = () => { const l = S.meta.settings && S.meta.settings.channels; return Array.isArray(l) && l.length ? l : CHANNELS; };
+const fmts = () => { const l = S.meta.settings && S.meta.settings.formats; return Array.isArray(l) && l.length ? l : FORMATS; };
+const withCur = (arr, cur) => cur && !arr.includes(cur) ? arr.concat([cur]) : arr;
+const COLORS = ['#E2571B','#0F7C74','#3D6FB6','#8A4FB0','#B8860B','#C7302B','#5B6966'];
+
+const I = {
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  today:'<path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/><circle cx="12" cy="12" r="4"/>',
+  note:'<path d="M5 3h10l4 4v14H5z"/><path d="M9 12h6M9 16h4"/>',
+  book:'<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-4a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h5z"/>',
+  task:'<rect x="4" y="4" width="16" height="16" rx="3"/><path d="m8 12 3 3 5-6"/>',
+  more:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
+  video:'<rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/>',
+  time:'<path d="M4 6h16M4 12h10M4 18h6"/><circle cx="19" cy="17" r="2.5"/>',
+  map:'<circle cx="12" cy="12" r="2.5"/><circle cx="4.5" cy="6" r="2"/><circle cx="19.5" cy="6" r="2"/><circle cx="19.5" cy="18" r="2"/><path d="m10 11-4-3.6M14 11l4-3.6M14 13.2l4 3.4"/>',
+  search:'<circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  image:'<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/>',
+  pin:'<path d="M9 4h6l-1 5 3 3H7l3-3z"/><path d="M12 12v8"/>',
+  star:'<path d="m12 4 2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>',
+  clock:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  draft:'<path d="M5 4h9l5 5v11H5z"/><path d="M14 4v5h5"/>',
+  active:'<path d="M4 12h4l2-6 4 12 2-6h4"/>',
+  flag:'<path d="M6 21V4M6 4h11l-2 4 2 4H6"/>',
+  archive:'<rect x="3" y="4" width="18" height="5" rx="1"/><path d="M5 9v10h14V9M10 13h4"/>',
+  trash:'<path d="M4 7h16M10 7V4h4v3M6 7l1 13h10l1-13"/>',
+  folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  chev:'<path d="m9 6 6 6-6 6"/>',
+  back:'<path d="m15 6-6 6 6 6"/>',
+  dots:'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>',
+  check:'<path d="m5 12 5 5 9-10"/>',
+  move:'<path d="M4 12h14M13 7l5 5-5 5"/>',
+  copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
+  restore:'<path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/>',
+  save:'<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+  bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',
+  expand:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/>'
+};
+const ic = (n, cls) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"'+(cls?' class="'+cls+'"':'')+'>'+I[n]+'</svg>';
+
+// open notebook with a teal bookmark ribbon, on the saffron tile
+const LOGO = '<svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#E2571B"/><path d="M12.5 11h4v7.2h7V11h4v18h-4v-7.2h-7V29h-4z" fill="#FFFFFF"/><circle cx="31" cy="29" r="3" fill="#0F7C74" stroke="#FFFFFF" stroke-width="1.5"/></svg>';
+
+/* ---------- store ---------- */
+const COLS = ['items','tasks','videos','daily','maps','meta'];
+const S = {items:{},tasks:{},videos:{},daily:{},maps:{},meta:{}};
+let db = null, mode = 'loading', ready = {};
+const LKEY = 'hasan-notebook-local';
+const STANDALONE = !(window.claude && typeof window.claude.use === 'function');
+let idbP = null, lsT = null;
+function idb(){ if(!idbP) idbP = new Promise((res, rej) => { const r = indexedDB.open('hasan-notebook', 1); r.onupgradeneeded = () => r.result.createObjectStore('kv'); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); return idbP; }
+async function idbGet(k){ const d = await idb(); return new Promise((res, rej) => { const q = d.transaction('kv').objectStore('kv').get(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); }); }
+async function idbSet(k, v){ const d = await idb(); return new Promise((res, rej) => { const t = d.transaction('kv', 'readwrite'); t.objectStore('kv').put(v, k); t.oncomplete = () => res(); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error); }); }
+function flushLocal(){ clearTimeout(lsT); lsT = null; idbSet(LKEY, S).catch(() => { try { localStorage.setItem(LKEY, JSON.stringify(S)); } catch(e){ toast('ফোনে জায়গা কম, সেভ হয়নি। পুরনো ছবি বা লেখা মুছে দেখুন।'); } }); }
+
+function clean(o){ return JSON.parse(JSON.stringify(o)); }
+function put(col, id, data, silent){
+  const body = clean(Object.assign({}, data)); delete body.id;
+  S[col][id] = Object.assign({}, body, {id});
+  if(mode === 'cloud'){
+    db.doc(col+'/'+id).set(body).catch(onErr);
+  } else saveLocal();
+  if(!silent) markDirty();
+  scheduleRender();
+}
+function patch(col, id, changes, silent){ const cur = S[col][id]; if(!cur) return; put(col, id, Object.assign({}, cur, changes), silent); }
+function remove(col, id){
+  delete S[col][id];
+  if(mode === 'cloud') db.doc(col+'/'+id).delete().catch(onErr); else saveLocal();
+  markDirty();
+  scheduleRender();
+}
+function onErr(e){
+  const c = e && e.code;
+  if(c === 'quota_exceeded') toast('জায়গা ভরে গেছে। পুরনো কিছু মুছে আবার চেষ্টা করুন।');
+  else if(c === 'revoked' || c === 'not_granted') toast('ক্লাউডে সেভ করার অনুমতি নেই।');
+  else toast('সেভ হয়নি, ইন্টারনেট দেখে আবার চেষ্টা করুন।');
+}
+function backupNag(){
+  if(!STANDALONE) return '<div class="wrap" style="margin-bottom:12px"><div class="banner">এখন শুধু এই ডিভাইসে সেভ হচ্ছে। claude.ai-তে লগইন করে খুললে সব ডিভাইসে একসাথে সেভ হবে।</div></div>';
+  const le = tryLS('hasan-notebook-lastExport');
+  const n = Object.values(S.items).filter(i => i.type !== 'folder').length + Object.keys(S.tasks).length;
+  if(!n || (le && Date.now() - le < 7*86400000)) return '';
+  return '<div class="wrap" style="margin-bottom:12px"><div class="banner">'+(le ? 'শেষ ব্যাকআপ '+ago(le)+'।' : 'এখনো কোনো ব্যাকআপ নেওয়া হয়নি।')+' লেখা শুধু এই ফোনে আছে। <button class="btn sm" data-act="exportJson" style="margin-left:6px">এখনই ব্যাকআপ</button></div></div>';
+}
+function saveLocal(){ clearTimeout(lsT); lsT = setTimeout(flushLocal, 250); }
+async function loadLocal(){
+  let d = null; try { d = await idbGet(LKEY); } catch(e){}
+  if(!d) d = tryLS(LKEY);
+  if(d) COLS.forEach(c => S[c] = d[c] || {});
+  if(!Object.keys(S.items).length){
+    // first run on this device: give the notebook its basic shelves
+    const t = Date.now();
+    const f = (title, parentId, color, order) => { const id = uid(); S.items[id] = {id, type:'folder', title, parentId, color, order, created:t, updated:t}; return id; };
+    const bani = f('বাণী', null, COLORS[0], 1);
+    f('নিজ বাণী', bani, COLORS[0], 1); f('কপি বাণী', bani, COLORS[4], 2);
+    f('লম্বা লেখা', null, COLORS[2], 2); f('স্ক্রিপ্ট', null, COLORS[5], 3);
+    f('প্রোডাক্টিভিটি', null, COLORS[1], 4); f('ডায়েরি', null, COLORS[3], 5);
+    saveLocal();
+  }
+}
+async function initStore(){
+  let cap = null;
+  try { cap = (window.claude && typeof window.claude.use === 'function') ? await window.claude.use('db') : null; } catch(e){ cap = null; }
+  if(!cap){ try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch(e){} await loadLocal(); mode = 'local'; COLS.forEach(c => ready[c] = true); render(); return; }
+  db = cap; mode = 'cloud';
+  COLS.forEach(c => {
+    db.collection(c).limit(1000).onSnapshot(snap => {
+      const o = {};
+      snap.docs.forEach(d => { if(d.exists) o[d.id] = Object.assign({}, d.data(), {id:d.id}); });
+      S[c] = o; ready[c] = true;
+      scheduleRender();
+    }, err => { ready[c] = true; onErr(err); scheduleRender(); });
+  });
+}
+
+/* ---------- derived ---------- */
+const items = () => Object.values(S.items);
+function chain(i){ const out = []; let p = i && i.parentId, n = 0; while(p && S.items[p] && n++ < 50){ out.unshift(S.items[p]); p = S.items[p].parentId; } return out; }
+const trashed = i => !!i.trashedAt || chain(i).some(a => a.trashedAt);
+const archivedDeep = i => !!i.archived || chain(i).some(a => a.archived);
+const visible = i => !trashed(i) && !archivedDeep(i);
+const pages = () => items().filter(i => i.type === 'page' && visible(i));
+const isInbox = i => i.type === 'page' && i.inbox;
+function kids(pid){
+  return items().filter(i => (i.parentId || null) === (pid || null) && !i.trashedAt && !i.archived && !i.inbox)
+    .sort((a,b) => (a.type === b.type ? 0 : a.type === 'folder' ? -1 : 1) || (a.order||0)-(b.order||0) || (b.created||0)-(a.created||0));
+}
+function countIn(fid){ let n = 0; kids(fid).forEach(k => { n += k.type === 'page' ? 1 : countIn(k.id); }); return n; }
+function snippet(t){ return String(t||'').replace(/\s+/g,' ').trim().slice(0,140); }
+function streakInfo(){
+  const days = (S.meta.writing && S.meta.writing.days) || {};
+  let n = 0; const d = new Date();
+  if(!days[dkey(d)]) d.setDate(d.getDate()-1);
+  while(days[dkey(d)]){ n++; d.setDate(d.getDate()-1); }
+  const last = []; const e = new Date(); e.setDate(e.getDate()-13);
+  for(let k=0;k<14;k++){ last.push({key:dkey(e), on:!!days[dkey(e)]}); e.setDate(e.getDate()+1); }
+  return {n, last};
+}
+function markWrote(){
+  const w = S.meta.writing || {days:{}}; const k = dkey();
+  if(w.days && w.days[k]) return;
+  put('meta','writing', {days: Object.assign({}, w.days, {[k]: true})});
+}
+
+/* ---------- state & render ---------- */
+const st = {view:'today', id:null, filter:'all', taskTab:'near', year:null, month:null, open: tryLS('hn-open') || {}};
+let rq = null;
+function scheduleRender(){ if(rq) return; rq = requestAnimationFrame(() => { rq = null; render(); }); }
+// in-app history: every move is remembered so "পিছনে" returns to where you were; it also hooks the phone/browser back gesture
+const hist = []; let pushed = 0;
+function go(view, id, noPush){
+  id = id || null;
+  if(!noPush && (st.view !== view || (st.id||null) !== id)){
+    hist.push({view:st.view, id:st.id||null}); if(hist.length > 60) hist.shift();
+    try { history.pushState({hn:1}, ''); pushed++; } catch(e){}
+  }
+  st.view = view; st.id = id; st.filter = 'all'; closeSheet(); render(); window.scrollTo(0,0);
+}
+function parentOf(){
+  const p = st.id && S.items[st.id];
+  if(st.view === 'page') return p && p.inbox ? {view:'inbox'} : {view:'folder', id: p && p.parentId};
+  if(st.view === 'folder' && p) return {view:'folder', id: p.parentId};
+  if(st.view === 'map') return {view:'maps'};
+  return {view:'today'};
+}
+function goBack(){
+  let to = null;
+  while(hist.length){ const h = hist.pop(); if(h.view === 'today' || h.view === 'inbox' || !h.id || S.items[h.id] || (S.maps && S.maps[h.id])){ to = h; break; } }
+  if(!to) to = parentOf();
+  go(to.view, to.id, true);
+}
+window.addEventListener('popstate', () => { if(pushed > 0) pushed--; if($('#layer').innerHTML) closeSheet(); goBack(); });
+function backBtn(){ return st.view === 'today' ? '' : '<div class="backbar"><button class="backbtn" data-act="back" aria-label="পিছনে">'+ic('back')+'<span>পিছনে</span></button></div>'; }
+
+function render(){
+  applySettings(); renderSide(); renderTabs(); driveOnLoad();
+  if(!st.homed && ready.meta){ st.homed = true; const h = sets().home; if(h && h !== 'today' && st.view === 'today') st.view = h; }
+  const ae = document.activeElement;
+  if(st.view === 'page' && ae && ae.closest && ae.closest('#editor')) return; // don't disturb typing
+  const main = $('#main');
+  if(mode === 'loading' || (mode === 'cloud' && !ready.items)){ main.innerHTML = '<div class="loading">খাতা খোলা হচ্ছে…</div>'; return; }
+  // keep whatever is being typed in a field when data arrives from another device
+  let keep = null;
+  if(ae && ae.id && main.contains(ae) && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA') && ae.value) keep = {id:ae.id, v:ae.value, s:ae.selectionStart, e:ae.selectionEnd};
+  const v = VIEWS[st.view] || VIEWS.today;
+  let out = v(); const bb = backBtn();
+  if(bb){ const m = out.match(/^<div class="wrap[^"]*"[^>]*>/); out = m ? m[0] + bb + out.slice(m[0].length) : '<div class="wrap">'+bb+'</div>' + out; }
+  main.innerHTML = (mode === 'local' ? backupNag() : '') + out;
+  if(keep){ const n = document.getElementById(keep.id); if(n){ n.value = keep.v; n.focus(); try { n.setSelectionRange(keep.s, keep.e); } catch(e){} } }
+  autosize();
+  if(st.view === 'dash') balanceDash();
+}
+// dashboard: on wide screens drop each card into whichever of two columns is shorter, so neither side is left empty
+function balanceDash(){
+  const g = $('#dashGrid'); if(!g) return;
+  const cards = Array.from(g.querySelectorAll(':scope > .card, :scope > .dash-col > .card'));
+  g.querySelectorAll(':scope > .dash-col').forEach(c => c.remove());
+  cards.forEach(c => g.appendChild(c));
+  if(window.innerWidth < 900) return;
+  const cols = [document.createElement('div'), document.createElement('div')]; cols.forEach(c => { c.className = 'dash-col'; });
+  const hs = cards.map(c => c.offsetHeight);
+  g.appendChild(cols[0]); g.appendChild(cols[1]);
+  const h = [0, 0];
+  cards.forEach((c, i) => { const k = h[0] <= h[1] ? 0 : 1; cols[k].appendChild(c); h[k] += hs[i] + 12; });
+}
+let dashRT; window.addEventListener('resize', () => { clearTimeout(dashRT); dashRT = setTimeout(() => { if(st.view === 'dash') balanceDash(); }, 150); });
+function autosize(){ document.querySelectorAll('textarea[data-auto]').forEach(t => { t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; }); }
+
+/* ---------- automatic daily update ---------- */
+function autoLog(text, ref){
+  if(!sets().autoLog) return;
+  const k = dkey(); const cur = S.daily[k] || {lines:[]};
+  const lines = (cur.lines||[]).filter(l => l.ref !== ref);
+  put('daily', k, {lines: lines.concat([{t:Date.now(), text, ref, auto:true}])});
+}
+function unLog(ref){ const k = dkey(); const cur = S.daily[k]; if(!cur || !(cur.lines||[]).some(l => l.ref === ref)) return; put('daily', k, {lines: cur.lines.filter(l => l.ref !== ref)}); }
+
+/* ---------- settings ---------- */
+const TODAY_SECTIONS = [['capture','মাথায় যা এল, লিখে ফেলুন',1],['remind','রিমাইন্ডার',1],['log','আজকের আপডেট',0],['near','নিকটস্থ কাজ',1],['far','দূরের কাজ',0],['pipeline','কনটেন্ট পাইপলাইন',1],['pinned','পিন করা',1],['recent','সম্প্রতি এডিট',1],['stats','ছোট হিসাব (ড্যাশবোর্ড)',0],['streak','গত ১৪ দিনের লেখা',0]];
+const ACCENTS = [['#E2571B','কমলা'],['#0F7C74','সবুজাভ নীল'],['#3D6FB6','নীল'],['#8A4FB0','বেগুনি'],['#C7302B','লাল'],['#B8860B','সোনালি']];
+const HOMES = [['today','হোম'],['inbox','দ্রুত নোট'],['folder','লেখা'],['tasks','কাজ'],['dash','ড্যাশবোর্ড']];
+function sets(){
+  const x = Object.assign({theme:'auto', accent:'', fs:'md', autoLog:true, folderSort:'date', name:'হাসান', home:'today', todayOff:null, todayOrder:null}, S.meta.settings || {});
+  if(!x.todayOff){ x.todayOff = {}; TODAY_SECTIONS.forEach(([k,,on]) => { if(!on) x.todayOff[k] = true; }); }
+  const ord = (x.todayOrder || []).filter(k => TODAY_SECTIONS.some(s => s[0] === k));
+  TODAY_SECTIONS.forEach(([k]) => { if(!ord.includes(k)) ord.push(k); });
+  x.todayOrder = ord;
+  return x;
+}
+function setSet(ch){ put('meta', 'settings', Object.assign({}, sets(), ch), true); applySettings(); }
+function applySettings(){
+  const x = sets(), r = document.documentElement;
+  if(x.theme === 'auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', x.theme);
+  if(x.accent){ r.style.setProperty('--accent', x.accent); r.style.setProperty('--accent-ink', x.accent); } else { r.style.removeProperty('--accent'); r.style.removeProperty('--accent-ink'); }
+  r.classList.toggle('fs-sm', x.fs === 'sm'); r.classList.toggle('fs-lg', x.fs === 'lg');
+}
+
+/* ---------- rich text ---------- */
+const OK_TAGS = {IMG:1,B:1,STRONG:1,I:1,EM:1,U:1,SPAN:1,FONT:1,BR:1,DIV:1,P:1,H3:1,UL:1,OL:1,LI:1};
+function cleanHtml(html){
+  const t = document.createElement('template'); t.innerHTML = String(html || '');
+  const walk = n => { Array.from(n.childNodes).forEach(c => {
+    if(c.nodeType === 3) return;
+    if(c.nodeType === 1 && c.tagName === 'IMG'){ const src = c.getAttribute('src') || ''; if(!/^\/_blob\/[0-9a-f]{32}$/.test(src) && !/^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+\/=]+$/.test(src)){ n.removeChild(c); return; } Array.from(c.attributes).forEach(a => c.removeAttribute(a.name)); c.setAttribute('src', src); c.setAttribute('alt', ''); c.setAttribute('loading', 'lazy'); return; }
+    if(c.nodeType !== 1 || !OK_TAGS[c.tagName]){ if(c.nodeType === 1 && !/^(SCRIPT|STYLE|IFRAME|OBJECT|EMBED|TEMPLATE)$/.test(c.tagName)){ walk(c); while(c.firstChild) n.insertBefore(c.firstChild, c); } n.removeChild(c); return; }
+    const fw = c.style && c.style.fontWeight, fst = c.style && c.style.fontStyle, td = c.style && (c.style.textDecorationLine || c.style.textDecoration) || '';
+    const col = c.style && c.style.color, bg = c.style && c.style.backgroundColor, fc = c.tagName === 'FONT' ? c.getAttribute('color') : '';
+    Array.from(c.attributes).forEach(a => c.removeAttribute(a.name));
+    const okc = v => v && /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\))$/i.test(v.trim());
+    if(okc(col) || okc(fc)) c.style.color = okc(col) ? col : fc;
+    if(okc(bg)) c.style.backgroundColor = bg;
+    if(fw === 'bold' || +fw >= 600) c.style.fontWeight = 'bold';
+    if(fst === 'italic') c.style.fontStyle = 'italic';
+    if(/underline/.test(td)) c.style.textDecoration = 'underline';
+    walk(c); }); };
+  walk(t.content);
+  return t.innerHTML;
+}
+function bodyHtml(p){ return p.html ? cleanHtml(p.html) : esc(p.body || '').replace(/\n/g, '<br>'); }
+function edText(){ const b = $('#edBody'); return b ? b.innerText.replace(/\u00a0/g, ' ').replace(/\s+$/, '') : ''; }
+const FMT_COLORS = [['','সাধারণ রং'],['#E2571B','কমলা'],['#0F7C74','সবুজাভ নীল'],['#C7302B','লাল'],['#3D6FB6','নীল'],['#8A4FB0','বেগুনি']];
+function fmtBar(){
+  const b = (c, v, label, inner, extra, cls) => '<button type="button" class="fmt'+(cls?' '+cls:'')+'" data-act="fmt" data-c="'+c+'"'+(v!=null?' data-v="'+v+'"':'')+' title="'+label+'" aria-label="'+label+'"'+(extra||'')+'>'+inner+'</button>';
+  return '<div class="fmtbar" role="toolbar" aria-label="লেখার ফরম্যাট">'+
+    b('bold', null, 'বোল্ড', '<b>B</b>')+b('italic', null, 'ইটালিক', '<i style="font-family:serif">I</i>')+b('underline', null, 'আন্ডারলাইন', '<u>U</u>')+
+    b('formatBlock', 'h3', 'বড় শিরোনাম', '<b>H</b>')+b('insertUnorderedList', null, 'তালিকা', '• —')+
+    '<span class="sep"></span>'+
+    FMT_COLORS.map(([c,l]) => b(c ? 'foreColor' : 'removeFormat', c || null, l, '', ' style="background:'+(c || 'var(--fg)')+'"', 'sw')).join('')+
+    '<span class="sep"></span>'+b('removeFormat', null, 'ফরম্যাট মুছুন', '<span style="font-size:12.5px">মুছুন</span>')+
+    '<span class="sep"></span><button type="button" class="fmt" data-act="imgPick" title="ছবি যোগ করুন" aria-label="ছবি যোগ করুন" style="width:auto;padding:0 10px;gap:5px;display:inline-flex;align-items:center">'+ic('image').replace('<svg','<svg style="width:17px;height:17px;flex:none"')+'<span style="font-size:12.5px">ছবি</span></button>'+
+    '<input type="file" id="imgIn" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden>'+
+  '</div>';
+}
+
+/* ---------- images in writing: shrunk in the browser, stored as artifact assets, referenced as /_blob/<id> ---------- */
+let assetsCap, imgRange = null;
+async function getAssets(){
+  if(assetsCap === undefined){ try { assetsCap = (window.claude && typeof window.claude.use === 'function') ? await window.claude.use('assets') : null; } catch(e){ assetsCap = null; } }
+  return assetsCap;
+}
+async function shrinkImage(file){
+  if(file.type === 'image/gif') return file;
+  try {
+    const bmp = await createImageBitmap(file);
+    const k = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas'); c.width = Math.round(bmp.width*k); c.height = Math.round(bmp.height*k);
+    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+    const out = await new Promise(r => c.toBlob(r, 'image/webp', 0.82));
+    return out && out.type === 'image/webp' && out.size < file.size ? out : file;
+  } catch(e){ return file; }
+}
+function saveImgRange(){ const sel = document.getSelection(), b = $('#edBody'); imgRange = sel && sel.rangeCount && b && b.contains(sel.anchorNode) ? sel.getRangeAt(0).cloneRange() : null; }
+async function addImages(files){
+  files = Array.from(files || []).filter(f => /^image\/(png|jpeg|webp|gif)$/.test(f.type));
+  if(!files.length) return;
+  const assets = await getAssets();
+  if(!assets && !STANDALONE){ toast('ছবি যোগ করা যাচ্ছে শুধু claude.ai-তে সাইন ইন করা অবস্থায়।'); return; }
+  const b = $('#edBody'); if(!b) return;
+  toast(files.length > 1 ? bn(files.length)+'টা ছবি তোলা হচ্ছে…' : 'ছবি তোলা হচ্ছে…');
+  for(const f of files){
+    try {
+      const small = await shrinkImage(f);
+      let src;
+      if(assets){ const r = await assets.upload(small, {type: small.type}); src = '/_blob/'+r.id; }
+      else { if(small.size > 3000000) throw {code:'too_large'}; src = await new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.onerror = rej; fr.readAsDataURL(small); }); }
+      b.focus();
+      if(imgRange){ const sel = document.getSelection(); sel.removeAllRanges(); sel.addRange(imgRange); }
+      document.execCommand('insertHTML', false, '<img src="'+src+'" alt=""><br>');
+      saveImgRange();
+    } catch(e){
+      const c = e && e.code;
+      toast(c === 'too_large' ? 'ছবিটা অনেক বড়, ছোট করে আবার দিন।' : c === 'quota_or_state' ? 'ছবির জায়গা ভরে গেছে।' : c === 'unsupported_type' ? 'এই ধরনের ছবি নেওয়া যায় না (PNG, JPG, WEBP, GIF দিন)।' : 'ছবি তোলা যায়নি, আবার চেষ্টা করুন।');
+      return;
+    }
+  }
+  edDirty(); toast('ছবি যোগ হয়েছে');
+}
+
+/* ---------- Finder-style date groups ---------- */
+function ageGroups(list){
+  const t0 = new Date(); t0.setHours(0,0,0,0); const day = 86400000, T = t0.getTime();
+  const label = ts => { if(ts >= T) return 'আজ'; if(ts >= T-day) return 'গতকাল'; if(ts >= T-7*day) return 'গত ৭ দিন'; if(ts >= T-30*day) return 'গত ৩০ দিন';
+    const d = new Date(ts); return MONTHS[d.getMonth()]+' '+bn(d.getFullYear()); };
+  const sorted = list.slice().sort((a,b) => (b.pinned?1:0)-(a.pinned?1:0) || (b.created||0)-(a.created||0));
+  const groups = []; let cur = null;
+  sorted.forEach(p => { const l = p.pinned ? 'পিন করা' : label(p.created||0); if(!cur || cur.l !== l){ cur = {l, ps:[]}; groups.push(cur); } cur.ps.push(p); });
+  return groups.map(g => '<div class="agegrp"><div class="agelbl">'+g.l+' <span>'+bn(g.ps.length)+'</span></div><div class="list">'+g.ps.map(p => pageRow(p)).join('')+'</div></div>').join('');
+}
+
+/* ---------- sidebar & tabs ---------- */
+function navBtn(view, icon, label, cnt, id){
+  const on = st.view === view && (id === undefined || (st.id||null) === id);
+  return '<button class="nav'+(on?' on':'')+'" data-act="go" data-view="'+view+'"'+(id?' data-id="'+id+'"':'')+'>'+ic(icon)+'<span>'+label+'</span>'+(cnt?'<span class="cnt">'+bn(cnt)+'</span>':'')+'</button>';
+}
+function treeHTML(pid, depth){
+  return kids(pid).filter(k => k.type === 'folder').map(f => {
+    const sub = kids(f.id).some(k => k.type === 'folder');
+    const open = !!st.open[f.id];
+    const on = st.view === 'folder' && st.id === f.id;
+    return '<div class="nav'+(on?' on':'')+'" style="--d:'+depth+'" data-menu="'+f.id+'" data-drag="'+f.id+'" data-dropfolder="'+f.id+'" data-sib="'+(pid||'')+'">'+
+      (sub ? '<button class="twist'+(open?' open':'')+'" data-act="twist" data-id="'+f.id+'" aria-label="খুলুন/বন্ধ">'+ic('chev')+'</button>' : '<span class="twist"></span>')+
+      '<button style="all:unset;flex:1;display:flex;gap:8px;align-items:center;cursor:pointer;min-width:0" data-act="go" data-view="folder" data-id="'+f.id+'"><span class="dot" style="background:'+esc(f.color||COLORS[6])+'"></span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(f.title)+'</span></button>'+
+      '<span class="cnt">'+bn(countIn(f.id))+'</span></div>' + (sub && open ? treeHTML(f.id, depth+1) : '');
+  }).join('');
+}
+// everything pinned: pages first, then pipeline videos; shown at the top of the sidebar and on home
+function pinnedAll(){
+  const ps = pages().filter(p => p.pinned).sort((a,b) => (b.pinnedAt||0)-(a.pinnedAt||0) || (b.updated||0)-(a.updated||0)).map(p => ({k:'page', id:p.id, title:p.title||'শিরোনামহীন'}));
+  const vs = Object.values(S.videos).filter(v => v.pinned && !(v.pageId && S.items[v.pageId] && S.items[v.pageId].pinned && !trashed(S.items[v.pageId]))).sort((a,b) => (b.pinnedAt||0)-(a.pinnedAt||0)).map(v => ({k:'video', id:v.id, title:v.title||'ভিডিও'}));
+  return vs.concat(ps);
+}
+function pinGroup(){
+  const a = pinnedAll();
+  if(!a.length) return '';
+  return '<div class="navgrp"><div class="navlabel">পিন করা</div>'+a.map(x => {
+    const on = (x.k === 'page' && st.view === 'page' && st.id === x.id);
+    return '<div class="pinrow"><button class="nav'+(on?' on':'')+'" data-act="'+(x.k==='video'?'vWrite':'open')+'" data-id="'+x.id+'">'+ic(x.k==='video'?'video':'pin')+'<span class="tt">'+esc(x.title)+'</span></button>'+
+      '<button class="unpin" data-act="'+(x.k==='video'?'vPin':'tog')+'" data-k="pinned" data-id="'+x.id+'" title="পিন সরান" aria-label="পিন সরান">'+ic('x')+'</button></div>';
+  }).join('')+'</div>';
+}
+function renderSide(){
+  const inboxN = items().filter(i => isInbox(i) && visible(i)).length;
+  const nearN = Object.values(S.tasks).filter(t => !t.done && t.when === 'near').length;
+  const ps = pages();
+  $('#side').innerHTML =
+    '<div class="brand"><span class="brand-mark">'+LOGO+'</span><div><b>Hasan\'s Notebook</b></div></div>'+
+    '<button class="searchbtn" data-act="search">'+ic('search')+'<span>খুঁজুন…</span><kbd>Ctrl K</kbd></button>'+
+    '<div class="navgrp">'+navBtn('today','today','হোম')+navBtn('inbox','note','দ্রুত নোট',inboxN)+navBtn('videos','video','কনটেন্ট পাইপলাইন')+navBtn('tasks','task','কাজ',nearN)+navBtn('timeline','time','টাইমলাইন')+navBtn('maps','map','মাইন্ড ম্যাপ')+navBtn('dash','chart','ড্যাশবোর্ড')+'</div>'+
+    pinGroup()+
+    '<div class="navgrp"><div class="navlabel">স্মার্ট তালিকা</div>'+
+      navBtn('list','clock','সম্প্রতি খোলা',0,'opened')+
+      navBtn('list','archive','আর্কাইভ',0,'archive')+navBtn('list','trash','ট্র্যাশ',0,'trash')+'</div>'+
+    '<div class="navgrp tree"><div class="navlabel">লেখার খাতা <button data-act="newFolder" aria-label="নতুন ফোল্ডার" title="নতুন ফোল্ডার">+</button></div>'+
+      navBtn('folder','book','সব নোট',0,null).replace('<button ','<button data-dropfolder="" ')+treeHTML(null, 0)+'</div>'+
+    '<div class="navgrp">'+navBtn('backup','save','ব্যাকআপ ও ইমপোর্ট')+navBtn('settings','gear','সেটিংস')+'</div>'+
+    '<div class="sync'+(mode==='local'?' local':'')+'"><i></i>'+(mode==='cloud'?'সব ডিভাইসে মিলছে':mode==='local'?'শুধু এই ডিভাইসে':'সংযোগ হচ্ছে…')+'</div>'+driveLine();
+}
+function driveLine(){
+  const m = driveMeta(); let t, cls = '';
+  if(drv.status === 'working') t = 'Drive-এ ব্যাকআপ হচ্ছে…';
+  else if(drv.status === 'error'){ t = 'Drive ব্যাকআপ হয়নি, দেখুন'; cls = ' local'; }
+  else if(drv.status === 'needs'){ t = 'Drive ব্যাকআপ চালু করুন'; cls = ' local'; }
+  else if(m.lastAt) t = 'Drive-এ ব্যাকআপ: '+ago(m.lastAt);
+  else { t = 'Drive ব্যাকআপ চালু নেই'; cls = ' local'; }
+  return '<button class="sync'+cls+'" data-act="go" data-view="backup" style="border:0;background:none;text-align:left;margin-top:2px;cursor:pointer"><i></i>'+t+'</button>';
+}
+function renderTabs(){
+  const t = (v, icon, l, match) => '<button class="'+(match.includes(st.view)?'on':'')+'" data-act="go" data-view="'+v+'">'+ic(icon)+l+'</button>';
+  $('#tabs').innerHTML = t('today','today','হোম',['today'])+t('inbox','note','নোট',['inbox'])+t('folder','book','লেখা',['folder','page'])+t('tasks','task','কাজ',['tasks'])+t('more','more','আরও',['more','dash','videos','timeline','maps','map','list','backup','settings']);
+}
+
+/* ---------- shared pieces ---------- */
+function pageRow(p, opts){
+  opts = opts || {};
+  const where = chain(p).map(a => a.title).join(' › ');
+  return '<div class="item" data-menu="'+p.id+'" data-drag="'+p.id+'"'+(opts.sib != null ? ' data-sib="'+esc(opts.sib)+'"' : '')+'>'+
+    '<button class="main-hit" data-act="open" data-id="'+p.id+'">'+
+      '<span class="t">'+(p.pinned?'<span style="color:var(--accent)">● </span>':'')+(opts.hl ? opts.hl(p.title||'শিরোনামহীন') : esc(p.title||'শিরোনামহীন'))+'</span>'+
+      (opts.sn != null ? '<span class="s">'+opts.sn+'</span>' : (p.body ? '<span class="s">'+esc(snippet(p.body))+'</span>' : ''))+
+      '<span class="meta">'+(p.status && p.status!=='idea' ? '<span class="pill s-'+p.status+'">'+STATUS[p.status]+'</span>' : '')+
+        (p.priority ? '<span class="pill p-'+p.priority+'">'+PRIO[p.priority]+'</span>' : '')+
+        (where ? '<span>'+esc(where)+'</span>' : '')+'<span>'+(opts.time === 'opened' ? ago(p.opened) : opts.time === 'edited' ? ago(p.updated) : fmtDate(p.created))+'</span></span>'+
+    '</button><button class="iconbtn" data-act="menu" data-id="'+p.id+'" aria-label="আরও">'+ic('dots')+'</button></div>';
+}
+function taskRow(t){
+  return '<div class="item" data-tmenu="'+t.id+'">'+
+    '<button class="check '+(t.done?'done':'p-'+(t.priority||'low'))+'" data-act="toggleTask" data-id="'+t.id+'" aria-label="'+(t.done?'বাকি করুন':'হয়ে গেছে')+'">'+(t.done?ic('check'):'')+'</button>'+
+    '<button class="main-hit" data-act="taskMenu" data-id="'+t.id+'"><span class="t'+(t.done?' done-t':'')+'">'+esc(t.title)+'</span>'+
+    '<span class="meta">'+(t.priority?'<span class="pill p-'+t.priority+'">'+PRIO[t.priority]+'</span>':'')+(t.at?'<span>'+ic('bell').replace('<svg','<svg style="width:12px;height:12px;vertical-align:-1px"')+' '+fmtDate(new Date(t.at))+(t.at.length>10?', '+fmtTime(new Date(t.at)):'')+'</span>':'')+'</span></button><span class="acts">'+
+    (t.done ? '' : t.at ? (t.cal === t.at
+      ? '<a class="btn sm" data-cal="'+t.id+'" href="'+esc(gcalUrl(t))+'" target="_blank" rel="noopener" title="আবার Google Calendar-এ খুলুন" style="flex-shrink:0;color:var(--teal)">'+ic('check')+'<span class="lbl">সেভ করা</span></a>'
+      : '<a class="btn sm teal" data-cal="'+t.id+'" href="'+esc(gcalUrl(t))+'" target="_blank" rel="noopener" title="Google Calendar-এ রিমাইন্ডার সেভ করুন" style="flex-shrink:0">'+ic('bell')+'<span class="lbl">ক্যালেন্ডারে সেভ</span></a>')
+      : '<button class="btn sm" data-act="remSet" data-id="'+t.id+'" style="flex-shrink:0">'+ic('bell')+'<span class="lbl">রিমাইন্ডার দিন</span></button>')+
+    '<button class="iconbtn" data-act="taskMenu" data-id="'+t.id+'" aria-label="আরও">'+ic('dots')+'</button></span></div>';
+}
+function gcalUrl(t){
+  const at = t.at || ''; let dates;
+  if(at.length > 10){
+    const s = at.replace(/[-:]/g,'').slice(0,13) + '00';
+    const e = new Date(at); e.setMinutes(e.getMinutes()+30);
+    const ee = e.getFullYear()+pad(e.getMonth()+1)+pad(e.getDate())+'T'+pad(e.getHours())+pad(e.getMinutes())+'00';
+    dates = s+'/'+ee;
+  } else {
+    const d = new Date(at+'T00:00'); const n = new Date(d); n.setDate(n.getDate()+1);
+    dates = at.replace(/-/g,'')+'/'+dkey(n).replace(/-/g,'');
+  }
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(t.title)+'&dates='+dates+'&ctz=Asia/Dhaka&details='+encodeURIComponent("Hasan's Notebook থেকে")
+}
+const sortTasks = arr => arr.sort((a,b) => (PRANK[a.priority]??4)-(PRANK[b.priority]??4) || (a.created||0)-(b.created||0));
+
+/* ---------- views ---------- */
+const VIEWS = {};
+
+VIEWS.today = function(){
+  const d = new Date(), cfg = sets();
+  const log = (S.daily[dkey()] && S.daily[dkey()].lines) || [];
+  const open = when => sortTasks(Object.values(S.tasks).filter(t => !t.done && t.when === when)).slice(0,5);
+  const ps = pages();
+  const vids = Object.values(S.videos);
+  const hr = d.getHours();
+  const SEC = {
+    capture: () => '<div class="card lift"><h3>মাথায় যা এল, লিখে ফেলুন</h3>'+
+      '<div class="capture"><textarea class="field" id="cap" rows="1" data-auto placeholder="এক লাইনে নোট, আইডিয়া বা কাজ…"></textarea></div>'+
+      '<div class="row"><button class="btn pri sm" data-act="capNote">'+ic('note')+'নোট হিসেবে রাখুন</button><button class="btn sm" data-act="capTask" data-when="near">নিকটস্থ কাজ</button><button class="btn sm" data-act="capTask" data-when="far">দূরের কাজ</button></div></div>',
+    remind: () => { const rem = Object.values(S.tasks).filter(t => !t.done && t.at).sort((a,b) => String(a.at).localeCompare(String(b.at))).slice(0,4);
+      return '<div class="remind"><h3><span style="display:flex;align-items:center;gap:6px">'+ic('bell').replace('<svg','<svg style="width:20px;height:20px"')+'রিমাইন্ডার</span><button class="link" data-act="newReminder">+ নতুন রিমাইন্ডার</button></h3>'+
+      (rem.length ? '<div class="list">'+rem.map(taskRow).join('')+'</div>' : '<div style="font-size:14px;color:var(--teal)">কোনো রিমাইন্ডার নেই। "+ নতুন রিমাইন্ডার" চেপে কাজ আর সময় লিখুন, তারপর Google Calendar-এ সেভ করুন।</div>')+'</div>'; },
+    log: () => '<div class="card"><h3>আজকের আপডেট <span class="pill">'+bn(log.length)+' টা</span></h3>'+
+      '<div class="capture"><input class="field" id="logIn" placeholder="এখন কী করলেন?" data-enter="addLog"><button class="btn teal" data-act="addLog" aria-label="যোগ করুন">'+ic('plus')+'</button></div>'+
+      (log.length ? '<div class="log">'+log.slice().reverse().map(l => '<div><small>'+fmtTime(l.t)+(l.auto?' · নিজে থেকে':'')+'</small>'+esc(l.text)+'</div>').join('')+'</div>' : '<div class="empty">কাজ টিক দিলে বা লেখা "সম্পন্ন" করলে এখানে নিজে থেকেই যোগ হবে। চাইলে নিজেও লিখতে পারেন।</div>')+'</div>',
+    near: () => { const a = open('near'); return '<div class="card"><h3>নিকটস্থ কাজ <button class="link" data-act="go" data-view="tasks">সব দেখুন</button></h3>'+(a.length ? '<div class="list">'+a.map(taskRow).join('')+'</div>' : '<div class="empty">আজকের জন্য কোনো কাজ বাকি নেই।</div>')+'</div>'; },
+    far: () => { const a = open('far'); return '<div class="card"><h3>দূরের কাজ <button class="link" data-act="taskTab" data-t="far">সব দেখুন</button></h3>'+(a.length ? '<div class="list">'+a.map(taskRow).join('')+'</div>' : '<div class="empty">দূরের কোনো কাজ বাকি নেই।</div>')+'</div>'; },
+    pipeline: () => '<div class="card"><h3>কনটেন্ট পাইপলাইন <button class="link" data-act="go" data-view="videos">বোর্ড খুলুন</button></h3>'+
+      '<div class="pipe-mini">'+STAGES.map(([k,l]) => { const n = vids.filter(v => (v.stage||'idea') === k).length; return '<div class="row" style="justify-content:space-between;font-size:14px"><span>'+l+'</span><b style="font-variant-numeric:tabular-nums">'+bn(n)+'</b></div>'; }).join('')+'</div></div>',
+    pinned: () => { const a = ps.filter(p => p.pinned).slice(0,6); const pv = Object.values(S.videos).filter(v => v.pinned && !(v.pageId && S.items[v.pageId] && S.items[v.pageId].pinned));
+      return '<div class="card"><h3>পিন করা</h3>'+(a.length||pv.length ? '<div class="list">'+pv.map(v => '<button class="item" data-act="vWrite" data-id="'+v.id+'" style="text-align:left;width:100%"><span class="pill p-high">ভিডিও</span><span style="flex:1;min-width:0;font-size:14px">'+esc(v.title)+'</span></button>').join('')+a.map(p=>pageRow(p)).join('')+'</div>' : '<div class="empty">লেখা বা কনটেন্ট পাইপলাইনের ভিডিওতে পিন চাপলে এখানে আর সাইডবারের উপরে থাকবে।</div>')+'</div>'; },
+    recent: () => { const a = ps.filter(p => !p.inbox).sort((a,b) => (b.updated||0)-(a.updated||0)).slice(0,4); return '<div class="card"><h3>সম্প্রতি এডিট <button class="link" data-act="go" data-view="list" data-id="edited">সব</button></h3>'+(a.length ? '<div class="list">'+a.map(p=>pageRow(p)).join('')+'</div>' : '<div class="empty">এখনো কোনো লেখা নেই।</div>')+'</div>'; },
+    stats: () => { const all = ps.filter(p => !p.inbox), mS = new Date(d.getFullYear(), d.getMonth(), 1).getTime();
+      return '<div class="card"><h3>ছোট হিসাব <button class="link" data-act="go" data-view="dash">ড্যাশবোর্ড</button></h3><div class="dash-tiles">'+
+      '<div class="tile" style="background:var(--surface-2)"><b>'+bn(all.length)+'</b><span>মোট লেখা</span></div><div class="tile" style="background:var(--surface-2)"><b>'+bn(all.filter(p => p.created >= mS).length)+'</b><span>এই মাসে</span></div>'+
+      '<div class="tile" style="background:var(--surface-2)"><b>'+bn(Object.values(S.tasks).filter(t => !t.done).length)+'</b><span>বাকি কাজ</span></div><div class="tile" style="background:var(--surface-2)"><b>'+bn(pages().filter(p => !p.inbox && p.created >= Date.now()-14*864e5).length)+'</b><span>গত ১৪ দিনে নতুন লেখা</span></div></div></div>'; },
+    streak: () => streakCard()
+  };
+  // how wide each section sits on the home page (out of 6 columns); phones always get full width
+  const SIZE = {capture:6, remind:6, near:4, far:4, pipeline:2, streak:2, pinned:3, recent:3, log:3, stats:6};
+  let html = cfg.todayOrder.filter(k => !cfg.todayOff[k] && SEC[k]).map(k => '<div class="s'+(SIZE[k]||3)+'">'+SEC[k]()+'</div>').join('');
+  if(html) html = '<div class="hgrid">'+html+'</div>';
+  return '<div class="wrap">'+
+  '<div class="mbrand"><span class="brand-mark">'+LOGO+'</span><div><b>Hasan\'s Notebook</b></div></div>'+
+  (drv.status === 'needs' || drv.status === 'error' ? '<div class="banner">'+esc(drv.msg || 'Google Drive-এ ব্যাকআপ চালু করতে একবার অনুমতি দিন।')+' <button class="btn sm" data-act="driveNow" style="margin-left:6px">এখনই ব্যাকআপ</button></div>' : '')+
+  '<div class="top"><div><div class="eyebrow">'+(hr<12?'শুভ সকাল':hr<17?'শুভ দুপুর':'শুভ সন্ধ্যা')+(cfg.name?', '+esc(cfg.name):'')+'</div><div class="h1">'+DAYS[d.getDay()]+', '+bn(d.getDate())+' '+MONTHS[d.getMonth()]+'</div></div>'+
+    '<button class="btn" data-act="search">'+ic('search')+'খুঁজুন</button></div>'+
+  (html || '<div class="empty">হোম পেজে কিছু রাখা নেই। "সেটিংস" থেকে যা দেখতে চান চালু করুন।</div>')+
+  '</div>';
+};
+// last 14 days of writing: one bar per day, stacked by top-level folder, so he can see what kind of writing each day held
+function topFolder(p){ const c = chain(p); return c.length ? c[0] : null; }
+function writingCard(){
+  const days = (S.meta.writing && S.meta.writing.days) || {};
+  const ps = pages().filter(p => !p.inbox);
+  const e = new Date(); e.setHours(0,0,0,0); e.setDate(e.getDate()-13);
+  const list = [];
+  for(let k = 0; k < 14; k++){ const a = e.getTime(); e.setDate(e.getDate()+1); const b = e.getTime(); const d = new Date(a);
+    const made = ps.filter(p => p.created >= a && p.created < b);
+    list.push({d, made, wrote: made.length > 0 || !!days[dkey(d)]}); }
+  const fmap = {};
+  list.forEach(x => x.made.forEach(p => { const f = topFolder(p); const k = f ? f.id : ''; (fmap[k] = fmap[k] || {f, n:0}).n++; }));
+  const fl = Object.entries(fmap).sort((a,b) => b[1].n - a[1].n);
+  const colorOf = k => k && fmap[k].f ? (fmap[k].f.color || COLORS[6]) : 'var(--faint)';
+  const mx = Math.max(1, ...list.map(x => x.made.length));
+  const total = list.reduce((n, x) => n + x.made.length, 0), wroteDays = list.filter(x => x.wrote).length;
+  const best = list.reduce((m, x) => x.made.length > (m ? m.made.length : 0) ? x : m, null);
+  return '<div class="card"><h3>গত ১৪ দিনের লেখা</h3>'+
+    '<div class="wsum"><div><b>'+bn(total)+'</b><span>নতুন লেখা</span></div>'+(best ? '<div><b>'+bn(best.made.length)+'</b><span>সবচেয়ে বেশি, '+bn(best.d.getDate())+' '+MONTHS[best.d.getMonth()].slice(0,3)+'</span></div>' : '')+'</div>'+
+    '<div class="wbars">'+list.map((x, i) => {
+      const segs = {}; x.made.forEach(p => { const f = topFolder(p); const k = f ? f.id : ''; segs[k] = (segs[k]||0) + 1; });
+      return '<div title="'+esc(bn(x.d.getDate())+' '+MONTHS[x.d.getMonth()]+': '+bn(x.made.length)+' টা লেখা')+'"><em>'+(x.made.length ? bn(x.made.length) : '')+'</em>'+
+        '<span class="stk" style="height:'+(x.made.length/mx*78)+'%">'+Object.keys(segs).map(k => '<i style="flex:'+segs[k]+';background:'+esc(colorOf(k))+'"></i>').join('')+'</span>'+
+        '<small'+(i===13?' class="tday"':'')+'>'+(i===13 ? 'আজ' : bn(x.d.getDate()))+'</small></div>'; }).join('')+'</div>'+
+    (fl.length ? '<div class="legend">'+fl.map(([k, v]) => '<span><i style="background:'+esc(colorOf(k))+'"></i>'+esc(v.f ? v.f.title : 'ফোল্ডার ছাড়া')+' '+bn(v.n)+'</span>').join('')+'</div>'
+      : '<div class="hint">গত ১৪ দিনে নতুন কোনো লেখা নেই।</div>')+
+    '<div class="hint">প্রতিটা দাগ একটা দিন, রং দেখায় কোন খাতার লেখা।</div>'+
+  '</div>';
+}
+const streakCard = writingCard;
+
+// finished videos for the dashboard: totals, month by month, and by format / channel
+function videoDoneAt(v){ return v.doneAt || (v.date ? new Date(v.date+'T00:00').getTime() : (v.updated || v.created || 0)); }
+function videoStatsCard(){
+  const vids = Object.values(S.videos), done = vids.filter(v => v.stage === 'up');
+  const now = new Date(), mS = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+  const going = vids.filter(v => ['script','shoot','edit'].includes(v.stage)).length, ideas = vids.filter(v => (v.stage||'idea') === 'idea').length;
+  const months = []; for(let i = 5; i >= 0; i--){ const a = new Date(now.getFullYear(), now.getMonth()-i, 1), b = new Date(a.getFullYear(), a.getMonth()+1, 1); months.push({l: MONTHS[a.getMonth()].slice(0,3), n: done.filter(v => { const t = videoDoneAt(v); return t >= a.getTime() && t < b.getTime(); }).length}); }
+  const mx = Math.max(1, ...months.map(m => m.n));
+  const rows = (title, key, opts) => { const all = opts.concat([...new Set(vids.map(v => v[key] || null).filter(x => !opts.includes(x)))]); const tmx = Math.max(1, ...all.map(o => vids.filter(v => (v[key]||null) === o).length));
+    return '<h4 class="sub">'+title+'</h4>'+all.map(o => { const t = vids.filter(v => (v[key]||null) === o), d = t.filter(v => v.stage === 'up').length; if(!t.length) return '';
+      return '<div class="drow"><div class="h"><span>'+esc(o || 'ঠিক করা নেই')+'</span><small>'+bn(d)+' টা শেষ · মোট '+bn(t.length)+'</small></div><div class="sbar"><i style="width:'+(d/tmx*100)+'%;background:var(--teal)"></i><i style="width:'+((t.length-d)/tmx*100)+'%;background:var(--teal-soft)"></i></div></div>'; }).join(''); };
+  return '<div class="card"><h3>ভিডিওর হিসাব <button class="link" data-act="go" data-view="videos">পাইপলাইন</button></h3>'+
+    '<div class="wsum"><div><b>'+bn(done.length)+'</b><span>মোট শেষ</span></div><div><b>'+bn(done.filter(v => videoDoneAt(v) >= mS).length)+'</b><span>এই মাসে শেষ</span></div><div><b>'+bn(going)+'</b><span>কাজ চলছে</span></div><div><b>'+bn(ideas)+'</b><span>আইডিয়া</span></div></div>'+
+    '<h4 class="sub">প্রতি মাসে কয়টা শেষ হলো</h4><div class="mbars" style="height:100px">'+months.map(m => '<div><em>'+(m.n?bn(m.n):'')+'</em><i style="height:'+(m.n/mx*80)+'%;background:var(--teal)"></i><small>'+m.l+'</small></div>').join('')+'</div>'+
+    rows('ধরন অনুযায়ী (রিলস, লং ভিডিও…)', 'format', fmts())+
+    rows('কোথাকার ভিডিও (নিজের, উমরাহ…)', 'channel', chans())+
+    '<div class="hint">গাঢ় অংশ = শেষ হওয়া (আপলোডেড), হালকা অংশ = এখনো কাজ বাকি।</div>'+
+  '</div>';
+}
+
+VIEWS.inbox = function(){
+  const notes = items().filter(i => isInbox(i) && visible(i)).sort((a,b) => (b.created||0)-(a.created||0));
+  return '<div class="wrap narrow">'+
+    '<div class="top"><div><div class="eyebrow">চলতে চলতে যা মাথায় আসে</div><div class="h1">দ্রুত নোট</div></div></div>'+
+    '<div class="card lift"><div class="capture"><textarea class="field" id="cap" rows="2" data-auto placeholder="আইডিয়াটা লিখে ফেলুন… পরে বড় করে পেজ বানাতে পারবেন"></textarea></div><div class="row"><button class="btn pri" data-act="capNote">'+ic('plus')+'নোট রাখুন</button></div></div>'+
+    (notes.length ? '<div class="list">'+notes.map(n => '<div class="item" data-menu="'+n.id+'"><button class="main-hit" data-act="open" data-id="'+n.id+'"><span class="t">'+esc(n.title)+'</span>'+(n.body?'<span class="s">'+esc(snippet(n.body))+'</span>':'')+'<span class="meta">'+ago(n.created)+'</span></button><button class="btn sm" data-act="expand" data-id="'+n.id+'">'+ic('expand')+'বড় করুন</button><button class="iconbtn" data-act="menu" data-id="'+n.id+'" aria-label="আরও">'+ic('dots')+'</button></div>').join('')+'</div>'
+      : '<div class="empty">ইনবক্স খালি। হাঁটতে হাঁটতে মাথায় কিছু এলে এখানে এক লাইনে লিখে রাখুন।</div>')+
+  '</div>';
+};
+
+VIEWS.folder = function(){
+  const f = st.id ? S.items[st.id] : null;
+  if(st.id && (!f || trashed(f))){ st.id = null; }
+  const ks = kids(st.id);
+  const folders = ks.filter(k => k.type === 'folder');
+  let ps = ks.filter(k => k.type === 'page');
+  if(st.filter !== 'all') ps = ps.filter(p => (p.status||'idea') === st.filter);
+  const crumbs = f ? '<div class="crumbs"><button data-act="go" data-view="folder">সব নোট</button>'+chain(f).map(a => '›<button data-act="go" data-view="folder" data-id="'+a.id+'">'+esc(a.title)+'</button>').join('')+'</div>' : '';
+  const fl = [['all','সব'],['idea','আইডিয়া'],['draft','ড্রাফট'],['working','চলছে'],['done','সম্পন্ন']];
+  return '<div class="wrap">'+crumbs+
+    '<div class="top"><div><div class="eyebrow">'+(f ? 'ফোল্ডার' : 'আপনার সব লেখা')+'</div><div class="h1">'+(f ? esc(f.title) : 'লেখার খাতা')+'</div></div>'+
+    '<div class="row">'+(f?'<button class="iconbtn" data-act="menu" data-id="'+f.id+'" aria-label="ফোল্ডারের অপশন">'+ic('dots')+'</button>':'')+'<button class="btn" data-act="newFolder" data-parent="'+(st.id||'')+'">'+ic('folder')+'ফোল্ডার</button><button class="btn pri" data-act="newPage" data-parent="'+(st.id||'')+'">'+ic('plus')+'নতুন লেখা</button></div></div>'+
+    (folders.length ? '<div class="folders">'+folders.map(x => '<button class="folder" data-act="go" data-view="folder" data-id="'+x.id+'" data-menu="'+x.id+'" data-drag="'+x.id+'" data-dropfolder="'+x.id+'" data-sib="'+(st.id||'')+'"><span class="fi" style="background:'+esc(x.color||COLORS[6])+'">'+ic('folder')+'</span><span style="min-width:0"><b>'+esc(x.title)+'</b><small>'+bn(countIn(x.id))+' টা লেখা</small></span></button>').join('')+'</div>' : '')+
+    '<div class="row" style="justify-content:space-between;flex-wrap:wrap"><div class="seg">'+[['date','তারিখ অনুযায়ী'],['manual','নিজে সাজানো']].map(([v,l]) => '<button data-act="fsort" data-v="'+v+'" class="'+(sets().folderSort===v?'on':'')+'">'+l+'</button>').join('')+'</div><div class="chips">'+fl.map(([k,l]) => '<button class="chip'+(st.filter===k?' on':'')+'" data-act="filter" data-f="'+k+'">'+l+'</button>').join('')+'</div></div>'+
+    (ps.length ? (sets().folderSort === 'manual'
+      ? '<div class="hint">লেখা চেপে ধরে (কম্পিউটারে মাউস দিয়ে টেনে) উপরে-নিচে সরান, বা ফোল্ডারের উপর ছেড়ে দিন।</div><div class="list">'+ps.slice().sort((a,b) => (b.pinned?1:0)-(a.pinned?1:0) || (a.order||0)-(b.order||0) || (b.created||0)-(a.created||0)).map(p => pageRow(p, {sib: st.id||''})).join('')+'</div>'
+      : ageGroups(ps)) : '<div class="empty">'+(st.filter==='all' ? 'এই ফোল্ডারে এখনো লেখা নেই। "নতুন লেখা" চেপে শুরু করুন।' : 'এই ধাপে কোনো লেখা নেই।')+'</div>')+
+  '</div>';
+};
+
+VIEWS.page = function(){
+  const p = S.items[st.id];
+  if(!p){ st.view = 'folder'; st.id = null; return VIEWS.folder(); }
+  const c = chain(p);
+  const opt = (obj, cur, none) => (none?'<option value="">'+none+'</option>':'')+Object.keys(obj).map(k => '<option value="'+k+'"'+(cur===k?' selected':'')+'>'+obj[k]+'</option>').join('');
+  return '<div class="wrap narrow" id="editor" data-id="'+p.id+'">'+
+    '<div class="row" style="justify-content:space-between">'+
+      '<div class="crumbs">'+(p.inbox?'<button data-act="go" data-view="inbox">দ্রুত নোট</button>':'<button data-act="go" data-view="folder">সব নোট</button>'+c.map(a => '›<button data-act="go" data-view="folder" data-id="'+a.id+'">'+esc(a.title)+'</button>').join(''))+'</div>'+
+      '<div class="row" style="gap:2px"><button class="iconbtn'+(p.pinned?' on':'')+'" data-act="tog" data-k="pinned" data-id="'+p.id+'" title="পিন" aria-label="পিন">'+ic('pin')+'</button><button class="iconbtn" data-act="menu" data-id="'+p.id+'" aria-label="আরও">'+ic('dots')+'</button></div>'+
+    '</div>'+
+    (p.inbox ? '<div class="banner" style="background:var(--teal-soft);color:var(--teal)">এটা এখনো দ্রুত নোটে আছে। <button class="btn sm teal" data-act="moveTo" data-id="'+p.id+'" style="margin-left:6px">খাতায় সরান</button></div>' : '')+
+    (p.trashedAt ? '<div class="banner">এই লেখাটা ট্র্যাশে আছে। <button class="btn sm" data-act="restore" data-id="'+p.id+'">ফেরত আনুন</button></div>' : '')+
+    '<textarea class="ed-title" id="edTitle" rows="1" data-auto placeholder="শিরোনাম">'+esc(p.title)+'</textarea>'+
+    '<div class="ed-meta">'+
+      '<label>স্ট্যাটাস<select class="field" id="edStatus">'+opt(STATUS, p.status||'idea')+'</select></label>'+
+      '<label>প্রায়োরিটি<select class="field" id="edPrio">'+opt(PRIO, p.priority, '—')+'</select></label>'+
+      '<label>ডেডলাইন<input type="date" class="field" id="edDeadline" value="'+esc(p.deadline||'')+'" style="min-height:38px;padding:5px 8px;font-size:14px"></label>'+
+      '<label>প্রগ্রেস '+bn(p.progress||0)+'%<input type="range" id="edProgress" min="0" max="100" step="10" value="'+(p.progress||0)+'" style="width:120px;margin-top:10px"></label>'+
+      '<label style="flex:1;min-width:160px">ট্যাগ (কমা দিয়ে)<input class="field" id="edTags" value="'+esc((p.tags||[]).join(', '))+'" placeholder="ইসলাম, জীবন" style="min-height:38px;font-size:14px"></label>'+
+    '</div>'+
+    fmtBar()+'<div class="ed-body" id="edBody" contenteditable="true" role="textbox" aria-multiline="true" data-ph="লিখতে শুরু করুন…">'+bodyHtml(p)+'</div>'+
+    '<div class="ed-foot"><span id="edCount">'+bn(words(p.body))+' শব্দ</span><span>লেখা: '+fmtDate(p.created)+(new Date(p.created).getFullYear()===new Date().getFullYear()?' '+bn(new Date(p.created).getFullYear()):'')+'</span><span id="edSaved">শেষ এডিট '+ago(p.updated)+'</span></div>'+
+  '</div>';
+};
+
+VIEWS.tasks = function(){
+  const all = Object.values(S.tasks);
+  const rems = all.filter(t => !t.done && t.at).sort((a,b) => String(a.at).localeCompare(String(b.at)));
+  const tab = st.taskTab;
+  const open = sortTasks(all.filter(t => !t.done && t.when === tab));
+  const done = all.filter(t => t.done && t.when === tab).sort((a,b) => (b.doneAt||0)-(a.doneAt||0));
+  const nN = all.filter(t => !t.done && t.when === 'near').length, fN = all.filter(t => !t.done && t.when === 'far').length;
+  return '<div class="wrap narrow">'+
+    '<div class="top"><div><div class="eyebrow">ছোট বড় সব কাজ, প্রায়োরিটি আর রিমাইন্ডারসহ</div><div class="h1">কাজ</div></div></div>'+
+    (rems.length ? '<div class="remind"><h3><span style="display:flex;align-items:center;gap:6px">'+ic('bell').replace('<svg','<svg style="width:20px;height:20px"')+'আসছে রিমাইন্ডার</span><span class="pill" style="background:var(--surface);color:var(--teal)">'+bn(rems.length)+'</span></h3><div class="list">'+rems.slice(0,6).map(taskRow).join('')+'</div></div>' : '')+
+    '<div class="seg" role="tablist"><button class="'+(tab==='near'?'on':'')+'" data-act="taskTab" data-t="near">নিকটস্থ ('+bn(nN)+')</button><button class="'+(tab==='far'?'on':'')+'" data-act="taskTab" data-t="far">দূরের ('+bn(fN)+')</button></div>'+
+    '<div class="eyebrow">'+(tab==='near' ? 'আজ বা একটু পরে যা করতে হবে' : '২ দিন থেকে ২ সপ্তাহের মধ্যে, যেমন বাজারে গেলে সাবান আনা')+'</div>'+
+    '<div class="card lift" id="taskAdd"><input class="field" id="tIn" placeholder="কাজটা লিখুন…" data-enter="addTask">'+
+      '<label class="row" style="font-size:14px;color:var(--muted)">প্রায়োরিটি <select class="field" id="tPrio"><option value="urgent">জরুরি</option><option value="high">বেশি</option><option value="medium" selected>মাঝারি</option><option value="low">কম</option></select></label>'+
+      '<div class="rem-row"><div class="lbl">'+ic('bell')+'রিমাইন্ডার দেবেন? (ইচ্ছা হলে)</div><div class="chips">'+remChips('tAt', true)+'</div><input type="datetime-local" class="field" id="tAt" aria-label="রিমাইন্ডারের দিন ও সময়" style="min-height:42px;font-size:14px"><div style="font-size:12.5px;color:var(--muted)">সময় দিলে কাজ যোগ করার পর Google Calendar-এ সেভ করার বাটন আসবে। সেখানে Save চাপলেই সময়মতো ফোনে নোটিফিকেশন আসবে।</div></div>'+
+      '<button class="btn pri bigbtn" data-act="addTask">'+ic('plus')+'কাজ যোগ করুন</button></div>'+
+    (open.length ? '<div class="list">'+open.map(taskRow).join('')+'</div>' : '<div class="empty">কোনো কাজ বাকি নেই।</div>')+
+    (done.length ? '<details><summary style="cursor:pointer;color:var(--muted);font-size:14px;padding:6px 0">হয়ে গেছে ('+bn(done.length)+')</summary><div class="list" style="margin-top:6px">'+done.map(taskRow).join('')+'</div><button class="btn sm ghost" data-act="clearDone" style="margin-top:6px">হয়ে যাওয়া কাজগুলো মুছুন</button></details>' : '')+
+  '</div>';
+};
+
+VIEWS.videos = function(){
+  const all = Object.values(S.videos);
+  const vids = all.filter(v => (!st.vf || v.format === st.vf) && (!st.vc || v.channel === st.vc)).sort((a,b) => (a.created||0)-(b.created||0));
+  const fchips = (key, list, cur) => { const used = list.filter(o => all.some(v => v[key === 'vf' ? 'format' : 'channel'] === o)); if(used.length < 2) return '';
+    return '<div class="chips">'+[['','সব']].concat(used.map(o => [o,o])).map(([v,l]) => '<button class="chip'+((cur||'')===v?' on':'')+'" data-act="vFilt" data-k="'+key+'" data-v="'+esc(v)+'">'+esc(l)+'</button>').join('')+'</div>'; };
+  const sel = (id, arr) => '<select class="field" id="'+id+'">'+arr.map(x => '<option>'+x+'</option>').join('')+'</select>';
+  return '<div class="wrap" style="max-width:1100px">'+
+    '<div class="top"><div><div class="eyebrow">প্রতিটা ভিডিও কোন ধাপে আছে</div><div class="h1">কনটেন্ট পাইপলাইন</div></div></div>'+
+    '<div class="card lift"><input class="field" id="vIn" placeholder="নতুন ভিডিও আইডিয়া…" data-enter="addVideo"><div class="row">'+sel('vCh',chans())+sel('vFm',fmts())+'<button class="btn pri" data-act="addVideo">'+ic('plus')+'যোগ</button></div></div>'+
+    fchips('vf', fmts(), st.vf)+fchips('vc', chans(), st.vc)+
+    '<div class="board-scroll"><div class="board">'+STAGES.map(([k,l]) => { const vs = vids.filter(v => (v.stage||'idea') === k).sort((a,b) => (b.pinned?1:0)-(a.pinned?1:0)); return '<div class="col"><h4><span>'+l+'</span><span style="color:var(--faint)">'+bn(vs.length)+'</span></h4>'+vs.map(v => '<div class="vwrap"><button class="vpin'+(v.pinned?' on':'')+'" data-act="vPin" data-id="'+v.id+'" title="'+(v.pinned?'পিন সরান':'পিন করুন')+'" aria-label="পিন">'+ic('pin')+'</button><button class="vcard'+(v.pinned?' pinned':'')+'" data-act="video" data-id="'+v.id+'"><b>'+esc(v.title)+'</b><span class="meta" style="display:flex;gap:6px;flex-wrap:wrap;font-size:12px;color:var(--muted)">'+esc(v.channel||'')+(v.format?' · '+esc(v.format):'')+(v.date?' · '+fmtDate(new Date(v.date+'T00:00')):'')+(v.pageId&&S.items[v.pageId]?' · লেখা আছে':'')+'</span></button></div>').join('')+'</div>'; }).join('')+'</div></div>'+
+  '</div>';
+};
+
+VIEWS.timeline = function(){
+  // collect dated events
+  const ev = {};
+  const add = (key, e) => { (ev[key] = ev[key] || []).push(e); };
+  items().filter(i => i.type === 'page' && !trashed(i)).forEach(p => add(dkey(new Date(p.created)), {k:'page', p}));
+  Object.values(S.daily).forEach(d => (d.lines||[]).forEach(l => add(d.id, {k:'log', l})));
+  Object.values(S.videos).filter(v => v.date).forEach(v => add(v.date, {k:'video', v}));
+  Object.values(S.tasks).filter(t => t.done && t.doneAt).forEach(t => add(dkey(new Date(t.doneAt)), {k:'task', t}));
+  const keys = Object.keys(ev).sort().reverse();
+  const years = [...new Set(keys.map(k => k.slice(0,4)))];
+  const now = new Date();
+  const y = st.year || (years[0] || String(now.getFullYear()));
+  const months = [...new Set(keys.filter(k => k.startsWith(y)).map(k => k.slice(5,7)))].sort().reverse();
+  const m = st.month && months.includes(st.month) ? st.month : (months[0] || pad(now.getMonth()+1));
+  const shown = keys.filter(k => k.startsWith(y+'-'+m));
+  return '<div class="wrap narrow">'+
+    '<div class="top"><div><div class="eyebrow">বছর › মাস › দিন</div><div class="h1">টাইমলাইন</div></div></div>'+
+    '<div class="chips">'+(years.length?years:[y]).map(x => '<button class="chip'+(x===y?' on':'')+'" data-act="tlYear" data-y="'+x+'">'+bn(x)+'</button>').join('')+'</div>'+
+    '<div class="chips">'+(months.length?months:[m]).map(x => '<button class="chip'+(x===m?' on':'')+'" data-act="tlMonth" data-m="'+x+'">'+MONTHS[+x-1]+'</button>').join('')+'</div>'+
+    (shown.length ? shown.map(k => { const d = new Date(k+'T00:00'); return '<div class="tl-day"><div class="tl-date"><b>'+bn(d.getDate())+'</b><small>'+DAYS[d.getDay()]+'</small></div><div class="list">'+ev[k].map(e =>
+      e.k === 'page' ? pageRow(e.p, {time:'created'}) :
+      e.k === 'log' ? '<div class="item"><span class="pill" style="background:var(--teal-soft);color:var(--teal)">আপডেট</span><span style="flex:1;min-width:0;font-size:14px;overflow-wrap:anywhere">'+esc(e.l.text)+'</span><small style="color:var(--faint)">'+fmtTime(e.l.t)+'</small></div>' :
+      e.k === 'video' ? '<button class="item" data-act="video" data-id="'+e.v.id+'" style="text-align:left;width:100%"><span class="pill p-high">ভিডিও</span><span style="flex:1;min-width:0;font-size:14px">'+esc(e.v.title)+'</span><span class="pill">'+(STAGES.find(s=>s[0]===(e.v.stage||'idea'))||STAGES[0])[1]+'</span></button>' :
+      '<div class="item"><span class="pill s-done">কাজ শেষ</span><span style="flex:1;min-width:0;font-size:14px">'+esc(e.t.title)+'</span></div>').join('')+'</div></div>'; }).join('')
+      : '<div class="empty">এই মাসে এখনো কিছু নেই। লেখা, দিনের আপডেট, শেষ করা কাজ আর ভিডিওর তারিখ এখানে দিন ধরে জমা হবে।</div>')+
+  '</div>';
+};
+
+VIEWS.maps = function(){
+  const ms = Object.values(S.maps).sort((a,b) => (b.updated||0)-(a.updated||0));
+  return '<div class="wrap narrow">'+
+    '<div class="top"><div><div class="eyebrow">একটা আইডিয়া থেকে ডালপালা</div><div class="h1">মাইন্ড ম্যাপ</div></div><button class="btn pri" data-act="newMap">'+ic('plus')+'নতুন ম্যাপ</button></div>'+
+    (ms.length ? '<div class="list">'+ms.map(m => '<div class="item"><button class="main-hit" data-act="go" data-view="map" data-id="'+m.id+'"><span class="t">'+esc((m.nodes&&m.nodes[0]&&m.nodes[0].text)||'ম্যাপ')+'</span><span class="meta">'+bn((m.nodes||[]).length)+' টা ভাবনা · '+ago(m.updated)+'</span></button></div>').join('')+'</div>'
+      : '<div class="empty">যেমন: "ইসলামিক পডকাস্ট" মাঝখানে রেখে চারপাশে অতিথি, প্রশ্ন, সেটআপ লিখে ফেলুন।</div>')+
+  '</div>';
+};
+
+VIEWS.map = function(){
+  const m = S.maps[st.id];
+  if(!m){ st.view = 'maps'; return VIEWS.maps(); }
+  const nodes = m.nodes || [];
+  const byParent = {}; nodes.forEach(n => { (byParent[n.parent||''] = byParent[n.parent||''] || []).push(n); });
+  const root = nodes.find(n => !n.parent) || nodes[0];
+  const pos = {}; let leaf = 0; const W = 190, H = 54;
+  const lay = (n, depth) => { const ch = byParent[n.id] || []; if(!ch.length){ pos[n.id] = {x:depth, y:leaf++}; } else { ch.forEach(c => lay(c, depth+1)); const ys = ch.map(c => pos[c.id].y); pos[n.id] = {x:depth, y:(Math.min(...ys)+Math.max(...ys))/2}; } };
+  if(root) lay(root, 0);
+  const maxX = Math.max(0, ...Object.values(pos).map(p => p.x));
+  const w = (maxX+1)*W + 40, h = Math.max(1, leaf)*H + 40;
+  const P = id => ({x: 20 + pos[id].x*W, y: 20 + pos[id].y*H});
+  const label = t => { t = String(t||''); return t.length > 16 ? t.slice(0,15)+'…' : t; };
+  let links = '', boxes = '';
+  nodes.forEach(n => {
+    if(!pos[n.id]) return;
+    const a = P(n.id);
+    if(n.parent && pos[n.parent]){ const b = P(n.parent); links += '<path class="mm-link" d="M'+(b.x+160)+' '+(b.y+18)+' C'+(b.x+175)+' '+(b.y+18)+' '+(a.x-15)+' '+(a.y+18)+' '+a.x+' '+(a.y+18)+'"/>'; }
+    boxes += '<g class="mm-node'+(n===root?' root':'')+'" data-act="mmNode" data-id="'+n.id+'" tabindex="0" role="button" aria-label="'+esc(n.text)+'"><rect x="'+a.x+'" y="'+a.y+'" width="160" height="36" rx="10"/><text x="'+(a.x+12)+'" y="'+(a.y+23)+'">'+esc(label(n.text))+'</text></g>';
+  });
+  return '<div class="wrap">'+
+    '<div class="crumbs"><button data-act="go" data-view="maps">মাইন্ড ম্যাপ</button></div>'+
+    '<div class="top"><div class="h1">'+esc(root ? root.text : 'ম্যাপ')+'</div><div class="row"><button class="btn sm" data-act="delMap" data-id="'+m.id+'">'+ic('trash')+'ম্যাপ মুছুন</button></div></div>'+
+    '<div class="eyebrow">যেকোনো ভাবনায় চাপুন: নতুন ডাল যোগ, নাম বদল বা মুছে ফেলা।</div>'+
+    '<div class="mm-wrap"><svg width="'+w+'" height="'+h+'" viewBox="0 0 '+w+' '+h+'">'+links+boxes+'</svg></div>'+
+  '</div>';
+};
+
+const LISTS = {
+  pinned:['পিন করা', p => p.pinned, 'edited'], fav:['প্রিয়', p => p.fav, 'edited'],
+  opened:['সম্প্রতি খোলা', p => p.opened, 'opened'], edited:['সম্প্রতি এডিট', () => true, 'edited'], created:['নতুন তৈরি', () => true, 'created'],
+  draft:['ড্রাফট', p => p.status === 'draft', 'edited'], working:['চলমান লেখা', p => p.status === 'working', 'edited'],
+  deadline:['ডেডলাইন আছে', p => p.deadline && p.status !== 'done', 'deadline'],
+  archive:['আর্কাইভ', null, 'edited'], trash:['ট্র্যাশ', null, 'edited']
+};
+const SHOWN_LISTS = ['opened','pinned','archive','trash'];
+VIEWS.list = function(){
+  const L = LISTS[st.id] || LISTS.edited;
+  let arr;
+  if(st.id === 'trash') arr = items().filter(i => i.trashedAt).sort((a,b) => b.trashedAt-a.trashedAt);
+  else if(st.id === 'archive') arr = items().filter(i => i.archived && !trashed(i));
+  else arr = pages().filter(L[1]);
+  const t = L[2];
+  if(t === 'opened') arr.sort((a,b) => (b.opened||0)-(a.opened||0));
+  else if(t === 'created') arr.sort((a,b) => (b.created||0)-(a.created||0));
+  else if(t === 'deadline') arr.sort((a,b) => String(a.deadline).localeCompare(String(b.deadline)));
+  else arr.sort((a,b) => (b.updated||0)-(a.updated||0));
+  arr = arr.slice(0, 200);
+  const row = i => i.type === 'folder'
+    ? '<div class="item" data-menu="'+i.id+'"><span class="dot" style="background:'+esc(i.color||COLORS[6])+'"></span><button class="main-hit" data-act="go" data-view="folder" data-id="'+i.id+'"><span class="t">'+esc(i.title)+'</span><span class="meta">ফোল্ডার</span></button><button class="iconbtn" data-act="menu" data-id="'+i.id+'" aria-label="আরও">'+ic('dots')+'</button></div>'
+    : pageRow(i, {time: t === 'deadline' ? 'edited' : t, sn: t === 'deadline' ? 'ডেডলাইন: '+fmtDate(new Date(i.deadline+'T00:00')) : null});
+  return '<div class="wrap narrow"><div class="top"><div class="h1">'+L[0]+'</div>'+(st.id==='trash'&&arr.length?'<button class="btn sm" data-act="emptyTrash">ট্র্যাশ খালি করুন</button>':'')+'</div>'+
+    (st.id === 'trash' ? '<div class="eyebrow">ট্র্যাশের লেখা ⋯ মেনু থেকে ফেরত আনা যায়।</div>' : '')+
+    (arr.length ? '<div class="list">'+arr.map(row).join('')+'</div>' : '<div class="empty">এখানে এখনো কিছু নেই।</div>')+'</div>';
+};
+
+const DASH_SECTIONS = [['tiles','উপরের ছোট হিসাব'],['status','সব লেখার অবস্থা'],['folders','ফোল্ডার অনুযায়ী'],['working','যেগুলোর কাজ চলছে'],['months','প্রতি মাসে কত লেখা'],['writing','গত ১৪ দিনের লেখা'],['tasks','কাজ'],['videos','ভিডিওর হিসাব']];
+const SCOL = {idea:'var(--faint)', draft:'var(--med)', working:'var(--accent)', done:'var(--teal)'};
+VIEWS.dash = function(){
+  const off = sets().dashOff || {}, on = k => !off[k];
+  const ps = pages().filter(p => !p.inbox);
+  const now = new Date(), mStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+  const tasks = Object.values(S.tasks), open = tasks.filter(t => !t.done);
+  const statusOf = p => SCOL[p.status] ? p.status : 'idea';
+  const bar = arr => { const tot = arr.length || 1; return '<div class="sbar">'+Object.keys(SCOL).map(k => { const n = arr.filter(p => statusOf(p) === k).length; return n ? '<i style="width:'+(n/tot*100)+'%;background:'+SCOL[k]+'"></i>' : ''; }).join('')+'</div>'; };
+  const legend = arr => '<div class="legend">'+Object.keys(SCOL).map(k => '<span><i style="background:'+SCOL[k]+'"></i>'+STATUS[k]+' '+bn(arr.filter(p => statusOf(p) === k).length)+'</span>').join('')+'</div>';
+  const inFolder = fid => { const out = []; const walk = id => kids(id).forEach(k => k.type === 'page' ? out.push(k) : walk(k.id)); walk(fid); return out; };
+  const folders = kids(null).filter(k => k.type === 'folder').map(f => ({f, ps: inFolder(f.id)})).filter(x => x.ps.length);
+  const months = []; for(let i = 11; i >= 0; i--){ const d = new Date(now.getFullYear(), now.getMonth()-i, 1), e = new Date(d.getFullYear(), d.getMonth()+1, 1); months.push({l: MONTHS[d.getMonth()].slice(0,3), n: ps.filter(p => p.created >= d.getTime() && p.created < e.getTime()).length}); }
+  const mx = Math.max(1, ...months.map(m => m.n));
+  const vids = Object.values(S.videos), vmx = Math.max(1, ...STAGES.map(([k]) => vids.filter(v => (v.stage||'idea') === k).length));
+  const tline = (l, arr) => { const d = arr.filter(t => t.done).length; return '<div class="drow"><div class="h"><span>'+l+'</span><small>'+bn(d)+' / '+bn(arr.length)+' হয়েছে</small></div><div class="sbar"><i style="width:'+(arr.length ? d/arr.length*100 : 0)+'%;background:var(--teal)"></i></div></div>'; };
+  const working = ps.filter(p => p.status === 'working');
+  return '<div class="wrap">'+
+    '<div class="top"><div><div class="eyebrow">কোথায় কতটুকু এগোল</div><div class="h1">ড্যাশবোর্ড</div></div></div>'+
+    (on('tiles') ? '<div class="dash-tiles">'+
+      '<div class="tile"><b>'+bn(ps.length)+'</b><span>মোট লেখা</span></div>'+
+      '<div class="tile"><b>'+bn(ps.filter(p => p.created >= mStart).length)+'</b><span>এই মাসে নতুন লেখা</span></div>'+
+      '<div class="tile"><b>'+bn(open.length)+'</b><span>বাকি কাজ</span></div>'+
+      '<div class="tile"><b>'+bn(Object.values(S.videos).filter(v => v.stage === 'up').length)+'</b><span>ভিডিও শেষ হয়েছে</span></div>'+
+    '</div>' : '')+
+    '<div class="dash-grid" id="dashGrid">'+
+      (on('status') ? '<div class="card"><h3>সব লেখার অবস্থা</h3>'+bar(ps)+legend(ps)+'</div>' : '')+
+      (!on('folders') ? '' : '<div class="card"><h3>ফোল্ডার অনুযায়ী</h3>'+folders.map(x => '<button class="drow" data-act="go" data-view="folder" data-id="'+x.f.id+'"><div class="h"><span><span style="background:'+esc(x.f.color||COLORS[6])+';display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px"></span>'+esc(x.f.title)+'</span><small>'+bn(x.ps.length)+' টা · '+bn(x.ps.filter(p => statusOf(p) === 'done').length)+' সম্পন্ন</small></div>'+bar(x.ps)+'</button>').join('')+'</div>')+
+      (working.length && on('working') ? '<div class="card"><h3>যেগুলোর কাজ চলছে</h3>'+working.map(p => '<button class="drow" data-act="open" data-id="'+p.id+'"><div class="h"><span>'+esc(p.title||'শিরোনামহীন')+'</span><small>'+bn(+p.progress||0)+'%</small></div><div class="sbar"><i style="width:'+(+p.progress||0)+'%;background:var(--accent)"></i></div></button>').join('')+'</div>' : '')+
+      (on('months') ? '<div class="card"><h3>প্রতি মাসে কত লেখা</h3><div class="mbars">'+months.map(m => '<div><em>'+(m.n?bn(m.n):'')+'</em><i style="height:'+(m.n/mx*80)+'%"></i><small>'+m.l+'</small></div>').join('')+'</div></div>' : '')+
+      (on('writing') ? streakCard() : '')+
+      (on('tasks') ? '<div class="card"><h3>কাজ</h3>'+tline('নিকটস্থ কাজ', tasks.filter(t => t.when === 'near'))+tline('দূরের কাজ', tasks.filter(t => t.when !== 'near'))+'</div>' : '')+
+      (on('videos') ? videoStatsCard() : '')+
+    '</div>'+
+  '</div>';
+};
+
+VIEWS.settings = function(){
+  const x = sets();
+  const seg = (key, opts) => '<div class="seg">'+opts.map(([v,l]) => '<button data-act="setv" data-k="'+key+'" data-v="'+v+'" class="'+(x[key]===v?'on':'')+'">'+l+'</button>').join('')+'</div>';
+  const chk = (key, label, hint) => '<label class="set-row"><span class="grow">'+label+(hint?'<div class="hint">'+hint+'</div>':'')+'</span><input type="checkbox" data-setk="'+key+'"'+(x[key]?' checked':'')+'></label>';
+  return '<div class="wrap narrow">'+
+    '<div class="top"><div><div class="eyebrow">কোডিং ছাড়াই অ্যাপ নিজের মতো করুন</div><div class="h1">সেটিংস</div></div></div>'+
+    '<div class="card"><h3>ড্যাশবোর্ডে কী থাকবে</h3><div class="hint">টিক তুলে দিলে ড্যাশবোর্ড থেকে সরে যাবে, আবার টিক দিলে ফিরে আসবে।</div>'+
+      DASH_SECTIONS.map(([k,l]) => '<label class="set-row"><input type="checkbox" data-dash="'+k+'"'+((x.dashOff||{})[k]?'':' checked')+'><span class="grow">'+l+'</span></label>').join('')+'</div>'+
+    '<div class="card"><h3>ভিডিওর ধরন আর চ্যানেল</h3><div class="hint">কনটেন্ট পাইপলাইনে যে অপশনগুলো আসে। প্রতি লাইনে একটা লিখুন, তারপর বাইরে চাপ দিলেই সেভ হবে। ড্যাশবোর্ডের ভিডিওর হিসাবও এই অনুযায়ী ভাগ হবে।</div>'+
+      '<label style="font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px">ধরন (যেমন রিলস, লং ভিডিও)<textarea class="field" id="setFormats" rows="4">'+esc(fmts().join('\n'))+'</textarea></label>'+
+      '<label style="font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px">কোথাকার ভিডিও (যেমন নিজের চ্যানেল, ফ্লাই উমরাহ)<textarea class="field" id="setChannels" rows="4">'+esc(chans().join('\n'))+'</textarea></label></div>'+
+    '<div class="card"><h3>হোম পেজে কী থাকবে</h3><div class="hint">টিক দিলে দেখাবে, টিক তুললে সরে যাবে। তীর চেপে উপরে-নিচে সাজান।</div>'+
+      x.todayOrder.map((k, i) => { const sec = TODAY_SECTIONS.find(z => z[0] === k); return '<div class="set-row"><input type="checkbox" data-today="'+k+'" id="ts-'+k+'"'+(x.todayOff[k]?'':' checked')+'><label class="grow" for="ts-'+k+'">'+sec[1]+'</label>'+
+        '<button class="iconbtn" data-act="todayMove" data-k="'+k+'" data-dir="-1" aria-label="উপরে"'+(i===0?' disabled':'')+' style="transform:rotate(-90deg)">'+ic('chev')+'</button>'+
+        '<button class="iconbtn" data-act="todayMove" data-k="'+k+'" data-dir="1" aria-label="নিচে"'+(i===x.todayOrder.length-1?' disabled':'')+' style="transform:rotate(90deg)">'+ic('chev')+'</button></div>'; }).join('')+
+    '</div>'+
+    '<div class="card"><h3>চেহারা</h3>'+
+      '<div class="set-row"><span class="grow">থিম</span>'+seg('theme', [['auto','ফোনের মতো'],['light','লাইট'],['dark','ডার্ক']])+'</div>'+
+      '<div class="set-row" style="flex-wrap:wrap"><span class="grow">মূল রং</span><div class="accents">'+ACCENTS.map(([c,l]) => '<button data-act="setv" data-k="accent" data-v="'+c+'" class="'+((x.accent||'#E2571B')===c?'on':'')+'" style="background:'+c+'" aria-label="'+l+'" title="'+l+'"></button>').join('')+'</div></div>'+
+      '<div class="set-row"><span class="grow">লেখার অক্ষরের আকার</span>'+seg('fs', [['sm','ছোট'],['md','মাঝারি'],['lg','বড়']])+'</div>'+
+    '</div>'+
+    '<div class="card"><h3>অন্যান্য</h3>'+
+      '<label class="set-row"><span class="grow">শুভেচ্ছায় আপনার নাম</span><input class="field" id="setName" value="'+esc(x.name||'')+'" style="max-width:160px;min-height:38px"></label>'+
+      '<div class="set-row" style="flex-wrap:wrap"><span class="grow">অ্যাপ খুললে প্রথমে</span><select class="field" id="setHome" style="max-width:170px;min-height:38px">'+HOMES.map(([v,l]) => '<option value="'+v+'"'+(x.home===v?' selected':'')+'>'+l+'</option>').join('')+'</select></div>'+
+      chk('autoLog', 'কাজ শেষ হলে "আজকের আপডেট"-এ নিজে থেকে যোগ হবে', 'কাজে টিক দিলে বা লেখা "সম্পন্ন" করলে আলাদা করে লিখতে হবে না।')+
+    '</div>'+
+    '<div class="card"><h3>লেখা সাজানো</h3><div class="hint">ফোল্ডারে লেখাগুলো তারিখ অনুযায়ী (আজ, গতকাল, গত সপ্তাহ…) নাকি নিজের মতো সাজানো থাকবে।</div>'+
+      '<div class="set-row"><span class="grow">সাজানোর ধরন</span>'+seg('folderSort', [['date','তারিখ অনুযায়ী'],['manual','নিজে সাজানো']])+'</div></div>'+
+  '</div>';
+};
+
+VIEWS.more = function(){
+  const b = (v, icon, l, id) => '<button class="nav" data-act="go" data-view="'+v+'"'+(id?' data-id="'+id+'"':'')+'>'+ic(icon)+'<span>'+l+'</span></button>';
+  return '<div class="wrap narrow"><div class="h1">আরও</div>'+
+    '<button class="searchbtn" data-act="search" style="min-height:46px">'+ic('search')+'<span>সব লেখা, কাজ, ভিডিওতে খুঁজুন…</span></button>'+
+    '<div class="more-grid">'+b('videos','video','কনটেন্ট পাইপলাইন')+b('timeline','time','টাইমলাইন')+b('maps','map','মাইন্ড ম্যাপ')+b('dash','chart','ড্যাশবোর্ড')+b('backup','save','ব্যাকআপ')+b('settings','gear','সেটিংস')+'</div>'+
+    (pinnedAll().length ? '<div class="card">'+pinGroup()+'</div>' : '')+
+    '<div class="navlabel">স্মার্ট তালিকা</div><div class="more-grid">'+SHOWN_LISTS.filter(k => k !== 'pinned').map(k => b('list', {pinned:'pin',fav:'star',opened:'clock',edited:'edit',created:'plus',draft:'draft',working:'active',deadline:'flag',archive:'archive',trash:'trash'}[k], LISTS[k][0], k)).join('')+'</div>'+
+    '<div class="navlabel">লেখার খাতা</div><div class="more-grid">'+kids(null).filter(k=>k.type==='folder').map(f => '<button class="nav" data-act="go" data-view="folder" data-id="'+f.id+'"><span class="dot" style="background:'+esc(f.color||COLORS[6])+'"></span><span>'+esc(f.title)+'</span></button>').join('')+'</div>'+
+    '<div class="sync'+(mode==='local'?' local':'')+'" style="margin-top:8px"><i></i>'+(mode==='cloud'?'ক্লাউডে সেভ হচ্ছে, iPhone, Mac আর যেকোনো পিসিতে একই খাতা':'শুধু এই ডিভাইসে সেভ হচ্ছে')+'</div></div>';
+};
+
+VIEWS.backup = function(){
+  const n = items().filter(i => i.type==='page').length;
+  return '<div class="wrap narrow"><div class="top"><div><div class="eyebrow">আপনার লেখা সবসময় আপনার কাছে</div><div class="h1">ব্যাকআপ ও ইমপোর্ট</div></div></div>'+
+    '<div class="card"><h3>সব ডিভাইসে একই খাতা</h3><div style="font-size:14px;color:var(--muted)">'+(mode==='cloud' ? 'মোবাইল, ম্যাকবুক বা পিসি, যেখানেই লিখুন, অ্যাপের নিজের ক্লাউডে সাথে সাথে সেভ হয়। অন্য ডিভাইসে অ্যাপ খোলা থাকলে কয়েক সেকেন্ডে দেখা যায়।' : 'এখন শুধু এই ডিভাইসে সেভ হচ্ছে।')+' মোট '+bn(n)+' টা লেখা, '+bn(Object.keys(S.tasks).length)+' টা কাজ।</div></div>'+
+    driveCard()+
+    '<div class="card"><h3>ব্যাকআপ ফাইল নামান</h3><div style="font-size:14px;color:var(--muted)">মাঝে মাঝে ব্যাকআপ নামিয়ে Google Drive-এ রেখে দিন। পুরো খাতা একটা ফাইলে থাকবে।</div><div class="row"><button class="btn pri" data-act="exportJson">'+ic('save')+'পুরো ব্যাকআপ (.json)</button><button class="btn" data-act="exportMd">সব লেখা পড়ার ফাইল (.md)</button></div></div>'+
+    '<div class="card"><h3>ব্যাকআপ থেকে ফেরত আনুন</h3><div style="font-size:14px;color:var(--muted)">আগে নামানো .json ফাইলটা বেছে নিন। একই লেখা থাকলে ফাইলেরটা বসবে, নতুনগুলো যোগ হবে।</div><input type="file" id="impFile" accept=".json,application/json" class="field" style="padding:8px"></div>'+
+  '</div>';
+};
+
+/* ---------- search ---------- */
+function lev(a, b){ if(Math.abs(a.length-b.length) > 2) return 9; const m = a.length, n = b.length; let prev = Array.from({length:n+1}, (_,j) => j); for(let i=1;i<=m;i++){ const cur = [i]; for(let j=1;j<=n;j++) cur[j] = Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+(a[i-1]===b[j-1]?0:1)); prev = cur; } return prev[n]; }
+function norm(s){ return String(s||'').toLowerCase(); }
+function matchScore(text, toks, phrase){
+  const T = norm(text); if(!T) return {s:0, hits:[]};
+  let s = T.includes(phrase) ? 20 : 0; const hits = [];
+  let wordsArr = null;
+  for(const tk of toks){
+    if(T.includes(tk)){ s += 10; hits.push(tk); continue; }
+    if(tk.length < 4) return null;
+    wordsArr = wordsArr || T.split(/[\s,.।!?;:()"'\-]+/);
+    const lim = tk.length >= 7 ? 2 : 1;
+    const w = wordsArr.find(w => w.length >= 3 && lev(w, tk) <= lim);
+    if(w){ s += 5; hits.push(w); } else return null;
+  }
+  return {s, hits};
+}
+function hl(text, hits){
+  let out = esc(text);
+  [...new Set(hits)].filter(h => h.length).sort((a,b) => b.length-a.length).forEach(h => {
+    const re = new RegExp(esc(h).replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'gi');
+    out = out.replace(re, x => '<mark>'+x+'</mark>');
+  });
+  return out.replace(/<mark>([^<]*)<mark>/g,'<mark>$1').replace(/<\/mark>([^<]*)<\/mark>/g,'$1</mark>');
+}
+function around(body, hit){ const B = String(body||''); const i = norm(B).indexOf(hit); if(i < 0) return snippet(B); const s = Math.max(0, i-50); return (s?'…':'')+B.slice(s, i+90).replace(/\s+/g,' ')+'…'; }
+let sFilter = 'all';
+function runSearch(q){
+  const box = $('#sRes'); if(!box) return;
+  const phrase = norm(q).trim(); const toks = phrase.split(/\s+/).filter(Boolean);
+  if(!toks.length){ box.innerHTML = '<div class="empty">শিরোনাম, লেখার ভেতরের শব্দ, ট্যাগ, ফোল্ডার, স্ট্যাটাস বা প্রায়োরিটি লিখুন। একটু ভুল বানানেও খুঁজে দেবে।</div>'; return; }
+  const res = [];
+  if(sFilter === 'all' || sFilter === 'page'){
+    items().filter(i => !trashed(i)).forEach(i => {
+      const meta = [(i.tags||[]).join(' '), chain(i).map(a=>a.title).join(' '), i.type==='page' ? (STATUS[i.status||'idea']+' '+(PRIO[i.priority]||'')) : 'ফোল্ডার', i.inbox?'দ্রুত নোট ইনবক্স':''].join(' ');
+      const t = matchScore(i.title, toks, phrase), all = matchScore((i.title||'')+' '+(i.body||'')+' '+meta, toks, phrase);
+      if(!all) return;
+      res.push({k:'page', i, s: all.s + (t ? t.s*2 : 0) + (i.pinned?3:0), hits: all.hits});
+    });
+  }
+  if(sFilter === 'all' || sFilter === 'task'){
+    Object.values(S.tasks).forEach(t => { const r = matchScore(t.title+' '+(PRIO[t.priority]||'')+' '+(t.when==='near'?'নিকটস্থ':'দূরের'), toks, phrase); if(r) res.push({k:'task', t, s:r.s, hits:r.hits}); });
+  }
+  if(sFilter === 'all' || sFilter === 'video'){
+    Object.values(S.videos).forEach(v => { const r = matchScore(v.title+' '+(v.notes||'')+' '+(v.channel||'')+' '+(v.format||''), toks, phrase); if(r) res.push({k:'video', v, s:r.s, hits:r.hits}); });
+  }
+  res.sort((a,b) => b.s-a.s);
+  const top = res.slice(0, 40);
+  if(!top.length){ box.innerHTML = '<div class="empty">"'+esc(q)+'" দিয়ে কিছু পাওয়া যায়নি।</div>'; return; }
+  box.innerHTML = '<div class="res-group">'+bn(res.length)+' টা ফল</div><div class="list">'+top.map(r => {
+    if(r.k === 'page'){
+      const i = r.i;
+      if(i.type === 'folder') return '<div class="item"><span class="dot" style="background:'+esc(i.color||COLORS[6])+'"></span><button class="main-hit" data-act="go" data-view="folder" data-id="'+i.id+'"><span class="t">'+hl(i.title, r.hits)+'</span><span class="meta">ফোল্ডার</span></button></div>';
+      const hit = r.hits.find(h => norm(i.body).includes(h));
+      return pageRow(i, {hl: t => hl(t, r.hits), sn: hit ? hl(around(i.body, hit), r.hits) : (i.body ? esc(snippet(i.body)) : '')});
+    }
+    if(r.k === 'task') return '<div class="item"><span class="pill">'+(r.t.when==='near'?'নিকটস্থ':'দূরের')+' কাজ</span><button class="main-hit" data-act="taskMenu" data-id="'+r.t.id+'"><span class="t'+(r.t.done?' done-t':'')+'">'+hl(r.t.title, r.hits)+'</span></button></div>';
+    return '<div class="item"><span class="pill p-high">ভিডিও</span><button class="main-hit" data-act="video" data-id="'+r.v.id+'"><span class="t">'+hl(r.v.title, r.hits)+'</span><span class="meta">'+(STAGES.find(s=>s[0]===(r.v.stage||'idea'))||STAGES[0])[1]+'</span></button></div>';
+  }).join('')+'</div>';
+}
+function openSearch(){
+  sFilter = 'all';
+  openSheet('<div class="search-top"><input class="field" id="sIn" placeholder="খুঁজুন… (যেমন: বাণী, পডকাস্ট, জরুরি)" autocomplete="off"><button class="btn ghost" data-act="close">বন্ধ</button></div>'+
+    '<div class="chips">'+[['all','সব'],['page','লেখা'],['task','কাজ'],['video','ভিডিও']].map(([k,l]) => '<button class="chip'+(k==='all'?' on':'')+'" data-act="sFilter" data-f="'+k+'">'+l+'</button>').join('')+'</div><div id="sRes"></div>', true);
+  const inp = $('#sIn'); inp.focus(); runSearch('');
+}
+
+/* ---------- sheet & toast ---------- */
+function openSheet(html, wide){
+  $('#layer').innerHTML = '<div class="scrim" data-act="scrim"><div class="sheet" role="dialog" aria-modal="true"'+(wide?' style="max-width:680px;min-height:60vh"':'')+'>'+html+'</div></div>';
+  const f = $('#layer input:not([type=file]), #layer textarea'); if(f && !wide) setTimeout(() => f.focus(), 30);
+}
+function closeSheet(){ $('#layer').innerHTML = ''; }
+let tt = null;
+function toast(msg){ let t = $('#toast'); if(!t){ t = document.createElement('div'); t.id = 'toast'; t.className = 'toast'; t.setAttribute('role','status'); document.body.appendChild(t); } t.textContent = msg; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => { t.hidden = true; }, 2600); }
+
+function itemMenu(id){
+  const i = S.items[id]; if(!i) return;
+  const b = (act, icon, l, cls) => '<button data-act="'+act+'" data-id="'+id+'"'+(cls?' class="'+cls+'"':'')+'>'+ic(icon)+l+'</button>';
+  let h = '<h3>'+esc(i.title||'শিরোনামহীন')+'</h3><div class="menu">';
+  if(i.trashedAt){ h += b('restore','restore','ফেরত আনুন') + b('purge','trash','চিরতরে মুছুন','danger'); }
+  else {
+    h += (i.type === 'folder' ? b('goFolder','folder','খুলুন') : b('open','note','খুলুন'));
+    h += b('rename','edit','নাম বদলান');
+    if(i.type === 'page'){ h += b('tog','pin', i.pinned?'পিন সরান':'পিন করুন').replace('data-id','data-k="pinned" data-id'); }
+    h += b('moveTo','move','অন্য ফোল্ডারে সরান') + b('dup','copy','কপি বানান');
+    h += b('archive','archive', i.archived?'আর্কাইভ থেকে ফেরত':'আর্কাইভ করুন') + b('trash','trash','ট্র্যাশে ফেলুন','danger');
+  }
+  h += '</div>';
+  if(i.type === 'folder' && !i.trashedAt) h += '<div class="navlabel">রঙ</div><div class="swatches">'+COLORS.map(c => '<button data-act="color" data-id="'+id+'" data-c="'+c+'" style="background:'+c+'" class="'+(i.color===c?'on':'')+'" aria-label="রঙ"></button>').join('')+'</div>';
+  openSheet(h);
+}
+function folderPicker(id){
+  const it = S.items[id];
+  const bad = new Set([id]);
+  if(it && it.type === 'folder'){ items().forEach(x => { if(chain(x).some(a => a.id === id)) bad.add(x.id); }); }
+  const rows = [];
+  const walk = (pid, d) => kids(pid).filter(k => k.type === 'folder' && !bad.has(k.id)).forEach(f => { rows.push('<button data-act="doMove" data-id="'+id+'" data-to="'+f.id+'" style="padding-left:'+(8+d*18)+'px"><span class="dot" style="background:'+esc(f.color||COLORS[6])+'"></span>'+esc(f.title)+'</button>'); walk(f.id, d+1); });
+  walk(null, 0);
+  openSheet('<h3>কোথায় রাখবেন?</h3><div class="menu"><button data-act="doMove" data-id="'+id+'" data-to="">'+ic('book')+'সব নোট (সবার উপরে)</button>'+rows.join('')+'</div><button class="btn" data-act="newFolderThenMove" data-id="'+id+'">'+ic('plus')+'নতুন ফোল্ডার বানিয়ে রাখুন</button>');
+}
+function askText(title, value, act, extra){
+  openSheet('<h3>'+title+'</h3><input class="field" id="askIn" value="'+esc(value||'')+'" data-enter="'+act+'"><div class="row" style="justify-content:flex-end"><button class="btn ghost" data-act="close">বাতিল</button><button class="btn pri" data-act="'+act+'"'+(extra||'')+'>ঠিক আছে</button></div>');
+}
+function videoSheet(id){
+  const v = S.videos[id]; if(!v) return;
+  const sel = (k, arr, cur) => '<select class="field" id="'+k+'">'+arr.map(x => '<option'+(x===cur?' selected':'')+'>'+x+'</option>').join('')+'</select>';
+  const si = STAGES.findIndex(s => s[0] === (v.stage||'idea'));
+  const hasPage = v.pageId && S.items[v.pageId] && !trashed(S.items[v.pageId]);
+  openSheet('<h3>ভিডিও</h3><input class="field" id="vT" value="'+esc(v.title)+'">'+
+    '<div class="row"><button class="btn pri" data-act="vWrite" data-id="'+id+'">'+ic('edit')+(hasPage?'স্ক্রিপ্ট/লেখা খুলুন':'স্ক্রিপ্ট/লেখা শুরু করুন')+'</button><button class="btn'+(v.pinned?' teal':'')+'" data-act="vPin" data-id="'+id+'" data-sheet="1">'+ic('pin')+(v.pinned?'পিন সরান':'পিন করুন')+'</button></div>'+
+    '<div class="stagebar">'+STAGES.map((s,i) => '<i class="'+(i<=si?'on':'')+'"></i>').join('')+'</div>'+
+    '<div class="chips">'+STAGES.map(([k,l]) => '<button class="chip'+((v.stage||'idea')===k?' on':'')+'" data-act="vStage" data-id="'+id+'" data-s="'+k+'">'+l+'</button>').join('')+'</div>'+
+    '<div class="row">'+sel('vC', withCur(chans(), v.channel), v.channel)+sel('vF', withCur(fmts(), v.format), v.format)+'<label style="font-size:12px;color:var(--muted);display:flex;flex-direction:column">আপলোড/শুটিংয়ের তারিখ<input type="date" class="field" id="vD" value="'+esc(v.date||'')+'" style="min-height:38px"></label></div>'+
+    '<textarea class="field" id="vN" rows="4" placeholder="স্ক্রিপ্টের আইডিয়া, হুক, লোকেশন…">'+esc(v.notes||'')+'</textarea>'+
+    '<div class="row" style="justify-content:space-between"><button class="btn ghost" data-act="delVideo" data-id="'+id+'" style="color:var(--urgent)">'+ic('trash')+'মুছুন</button><button class="btn pri" data-act="saveVideo" data-id="'+id+'">সেভ</button></div>');
+}
+function taskSheet(id){
+  const t = S.tasks[id]; if(!t) return;
+  openSheet('<h3>কাজ</h3><input class="field" id="tT" value="'+esc(t.title)+'">'+
+    '<div class="chips">'+Object.keys(PRIO).map(k => '<button class="chip'+(t.priority===k?' on':'')+'" data-act="tPrioSet" data-id="'+id+'" data-p="'+k+'">'+PRIO[k]+'</button>').join('')+'</div>'+
+    '<label style="font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:2px">রিমাইন্ডারের সময় (ইচ্ছা হলে)<input type="datetime-local" class="field" id="tA" value="'+esc(t.at && t.at.length>10 ? t.at : (t.at ? t.at+'T09:00' : ''))+'"></label>'+
+    (t.at && !t.done ? '<a class="btn teal bigbtn" data-cal="'+id+'" href="'+esc(gcalUrl(t))+'" target="_blank" rel="noopener">'+ic('bell')+'Google Calendar-এ রিমাইন্ডার সেভ করুন</a>' : '')+
+    '<div class="menu"><button data-act="tSwap" data-id="'+id+'">'+ic('move')+(t.when==='near'?'দূরের কাজে সরান':'নিকটস্থ কাজে সরান')+'</button><button data-act="tToPage" data-id="'+id+'">'+ic('note')+'এটা নিয়ে লেখা/পেজ খুলুন</button><button class="danger" data-act="delTask" data-id="'+id+'">'+ic('trash')+'মুছে ফেলুন</button></div>'+
+    '<div class="row" style="justify-content:flex-end"><button class="btn pri" data-act="saveTask" data-id="'+id+'">সেভ</button></div>');
+}
+
+/* ---------- actions ---------- */
+function newPage(parentId, extra){
+  const id = uid(), t = Date.now();
+  put('items', id, Object.assign({type:'page', title:'', body:'', parentId: parentId || null, status:'idea', created:t, updated:t, opened:t}, extra||{}));
+  return id;
+}
+function openPage(id){ const p = S.items[id]; if(!p) return; if(p.type === 'folder'){ go('folder', id); return; } patch('items', id, {opened: Date.now()}, true); go('page', id); }
+function capture(){ const el = $('#cap'); const v = el ? el.value.trim() : ''; if(!v) { el && el.focus(); return null; } el.value = ''; autosize(); return v; }
+function exportAll(){ const out = {app:"Hasan's Notebook", version:1, exportedAt:new Date().toISOString()}; COLS.forEach(c => { out[c] = {}; Object.values(S[c]).forEach(d => { const x = Object.assign({}, d); delete x.id; out[c][d.id] = x; }); }); return out; }
+async function offerFile(name, data){
+  try {
+    const dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null;
+    if(!dl){
+      const file = new File([data], name, {type: /\.json$/.test(name) ? 'application/json' : 'text/markdown'});
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        try { await navigator.share({files:[file], title:name}); } catch(e){ if(e && e.name === 'AbortError') return; throw e; }
+      } else {
+        const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = name; document.body.appendChild(a); a.click();
+        setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 3000);
+      }
+      if(/\.json$/.test(name)){ tryLS('hasan-notebook-lastExport', Date.now()); scheduleRender(); }
+      toast('ব্যাকআপ ফাইল তৈরি হয়েছে');
+      return;
+    }
+    await dl.save({filename:name, data});
+    toast('ফাইল নামানো হয়েছে');
+  } catch(e){ if(e && e.code === 'declined') return; toast('ফাইল নামানো যায়নি।'); }
+}
+
+/* ---------- Google Drive backup ---------- */
+const DRIVE = 'Google Drive';
+const drv = {status:'idle', msg:'', dirty:false, timer:null, busy:false};
+let mcpNs = null, driveChecked = false;
+async function getMcp(){ if(mcpNs) return mcpNs; try { mcpNs = (window.claude && window.claude.use) ? await window.claude.use('mcp') : null; } catch(e){ mcpNs = null; } return mcpNs; }
+async function drivePerm(){ try { const p = window.claude && window.claude.use ? await window.claude.use('permissions') : null; return p ? await p.state('mcp:'+DRIVE).catch(() => 'unavailable') : 'unavailable'; } catch(e){ return 'unavailable'; } }
+function driveMeta(){ return STANDALONE ? {} : (S.meta.drive || {}); }
+function markDirty(){ drv.dirty = true; if(!driveMeta().auto) return; clearTimeout(drv.timer); drv.timer = setTimeout(autoBackup, 90000); }
+async function autoBackup(){
+  if(!drv.dirty || drv.busy || !driveMeta().auto) return;
+  const p = await drivePerm();
+  if(p !== 'granted'){ if(p !== 'unavailable'){ drv.status = 'needs'; drv.msg = 'Drive-এ নিজে থেকে ব্যাকআপ চালু রাখতে একবার "এখনই Drive-এ ব্যাকআপ" চাপুন।'; refreshDriveUI(); } return; }
+  backupToDrive(false);
+}
+function payloadOf(r){ const p = r && (r.payload || r.structuredContent); if(p && typeof p === 'object') return p; try { return JSON.parse(r.content[0].text); } catch(e){ return {}; } }
+const DRIVE_ERR = {
+  server_not_connected: 'Google Drive এখন যুক্ত নেই। claude.ai-এর Settings › Connectors থেকে Google Drive যুক্ত করুন।',
+  needs_reauth: 'Google Drive-এর লগইন মেয়াদ শেষ। Settings › Connectors থেকে আবার যুক্ত করুন।',
+  not_in_manifest: 'Drive ব্যবহারের অনুমতি দরকার। "এখনই Drive-এ ব্যাকআপ" চেপে অনুমতি দিন।',
+  consent_required: 'Drive ব্যবহারের অনুমতি দরকার। "এখনই Drive-এ ব্যাকআপ" চেপে অনুমতি দিন।',
+  selection_required: 'কোন Google Drive অ্যাকাউন্ট ব্যবহার হবে সেটা বেছে নিন, তারপর আবার চাপুন।',
+  blocked_by_policy: 'এই অ্যাকাউন্টে Drive ব্যবহার বন্ধ করা আছে।',
+  approval_required: 'Drive-এ লেখার অনুমতি দেওয়া হয়নি। আবার চেপে অনুমতি দিন।',
+  tool_error: 'Drive ফাইল বানাতে পারেনি। একটু পরে আবার চেষ্টা করুন।'
+};
+async function backupToDrive(manual){
+  if(drv.busy) return;
+  const mcp = await getMcp();
+  if(!mcp){ drv.status = 'error'; drv.msg = 'এখান থেকে Drive-এ যাওয়া যাচ্ছে না। claude.ai-তে অ্যাপটা খুলে চেষ্টা করুন।'; refreshDriveUI(); return; }
+  drv.busy = true; drv.status = 'working'; drv.msg = ''; refreshDriveUI();
+  try {
+    const m = Object.assign({files:{}}, driveMeta()); m.files = Object.assign({}, m.files);
+    if(!m.folderId){
+      const f = payloadOf(await mcp.callTool(DRIVE, 'create_file', {title:"Hasan's Notebook Backup", contentMimeType:'application/vnd.google-apps.folder'}));
+      if(!f.id) throw {code:'tool_error'};
+      m.folderId = f.id; put('meta', 'drive', Object.assign({}, m), true);
+    }
+    const key = dkey(), old = m.files[key];
+    drv.dirty = false;
+    const r = payloadOf(await mcp.callTool(DRIVE, 'create_file', {title:'hasans-notebook-'+key+'.json', parentId:m.folderId, contentMimeType:'application/json', disableConversionToGoogleType:true, textContent:JSON.stringify(exportAll())}));
+    if(!r.id) throw {code:'tool_error'};
+    m.files[key] = r.id; m.lastAt = Date.now(); m.lastUrl = r.viewUrl || ''; if(m.auto === undefined) m.auto = true;
+    put('meta', 'drive', m, true);
+    drv.status = 'idle'; drv.msg = '';
+    if(manual) toast('Drive-এ ব্যাকআপ হয়েছে');
+    if(old && old !== r.id){ try { await mcp.callTool(DRIVE, 'trash_file', {fileId:old}); } catch(e){} }
+  } catch(e){
+    drv.dirty = true; drv.status = 'error';
+    const code = e && e.code;
+    drv.msg = DRIVE_ERR[code] || 'Drive-এ ব্যাকআপ হয়নি। ইন্টারনেট দেখে আবার চেষ্টা করুন।';
+    if(code === 'declined' || code === 'approval_required') drv.status = 'needs';
+  }
+  drv.busy = false; refreshDriveUI();
+}
+function refreshDriveUI(){ renderSide(); if(st.view === 'backup' || st.view === 'today') render(); }
+async function driveOnLoad(){
+  if(driveChecked || !ready.meta || !ready.items) return;
+  driveChecked = true;
+  const m = driveMeta(); if(!m.auto) return;
+  const p = await drivePerm();
+  if(p === 'prompt' || p === 'denied'){ drv.status = 'needs'; drv.msg = 'এই ডিভাইসে Drive ব্যাকআপ চালু রাখতে একবার "এখনই Drive-এ ব্যাকআপ" চাপুন।'; refreshDriveUI(); return; }
+  if(p !== 'granted') return;
+  const newest = Math.max(0, ...COLS.map(c => Math.max(0, ...Object.values(S[c]).map(d => +(d.updated || d.created || 0) || 0))));
+  if(newest > (m.lastAt || 0)){ drv.dirty = true; clearTimeout(drv.timer); drv.timer = setTimeout(autoBackup, 20000); }
+}
+function driveCard(){
+  if(STANDALONE){
+    const le = tryLS('hasan-notebook-lastExport');
+    return '<div class="card"><h3 style="margin:0 0 6px">'+ic('save')+' ব্যাকআপ রাখুন</h3>'+
+      '<div style="font-size:14px;color:var(--muted);line-height:1.6">এই অ্যাপের লেখা শুধু এই ফোনেই থাকে। ফোন হারালে বা অ্যাপ মুছে ফেললে লেখাও চলে যাবে। তাই সপ্তাহে একবার নিচের "পুরো ব্যাকআপ (.json)" চেপে ফাইলটা iCloud Drive বা Google Drive-এ রেখে দিন।</div>'+
+      '<div style="margin:10px 0 0;font-size:14px">শেষ ব্যাকআপ: <b>'+(le ? ago(le)+' ('+fmtDate(new Date(le))+')' : 'এখনো নেওয়া হয়নি')+'</b></div></div>';
+  }
+  const m = driveMeta();
+  return '<div class="card"><h3 style="margin:0 0 6px">'+ic('save')+' Google Drive-এ নিজে থেকে ব্যাকআপ</h3>'+
+    '<div style="font-size:14px;color:var(--muted);line-height:1.6">অ্যাপ খোলা থাকলে কিছু লিখলে বা বদলালে প্রায় দেড় মিনিট পর পুরো খাতার একটা কপি আপনার Drive-এর "Hasan\'s Notebook Backup" ফোল্ডারে চলে যাবে। প্রতিদিনের জন্য একটা ফাইল থাকে, দিনের শেষ অবস্থা সেখানে থাকে।</div>'+
+    '<div style="margin:10px 0;font-size:14px">শেষ ব্যাকআপ: <b>'+(m.lastAt ? ago(m.lastAt)+' ('+fmtDate(new Date(m.lastAt))+', '+fmtTime(new Date(m.lastAt))+')' : 'এখনো ব্যাকআপ হয়নি')+'</b></div>'+
+    (drv.msg ? '<div class="remind" style="background:var(--accent-soft,#fde8dd);margin:8px 0"><div style="font-size:14px">'+esc(drv.msg)+'</div></div>' : '')+
+    '<div class="row" style="flex-wrap:wrap">'+
+      '<button class="btn teal" data-act="driveNow"'+(drv.busy?' disabled':'')+'>'+ic('save')+(drv.busy?'ব্যাকআপ হচ্ছে…':'এখনই Drive-এ ব্যাকআপ')+'</button>'+
+      (m.folderId ? '<a class="btn" href="https://drive.google.com/drive/folders/'+encodeURIComponent(m.folderId)+'" target="_blank" rel="noopener">'+ic('folder')+'Drive ফোল্ডার খুলুন</a>' : '')+
+    '</div>'+
+    '<label style="display:flex;gap:8px;align-items:center;margin-top:10px;font-size:14px"><input type="checkbox" id="driveAuto"'+(m.auto?' checked':'')+'> নিজে থেকে ব্যাকআপ</label></div>';
+}
+
+/* ---------- reminders ---------- */
+function remChips(target, withNone){
+  const opts = (withNone ? [['','নেই']] : []).concat([['tonight','আজ সন্ধ্যা ৭টা'],['tmr','কাল সকাল ৯টা'],['wk','১ সপ্তাহ পর']]);
+  return opts.map(([k,l]) => '<button class="chip'+(k===''?' on':'')+'" data-act="remQuick" data-t="'+target+'" data-k="'+k+'">'+l+'</button>').join('');
+}
+function whenText(at){ if(!at) return ''; const d = new Date(at.length > 10 ? at : at+'T00:00'); return fmtDate(d)+(at.length > 10 ? ', '+fmtTime(d) : ''); }
+function remindSheet(id){
+  const t = S.tasks[id]; if(!t || !t.at) { closeSheet(); return; }
+  openSheet('<h3>'+ic('bell')+' রিমাইন্ডার সেভ করুন</h3>'+
+    '<div style="font-size:15px;font-weight:600">'+esc(t.title)+'</div><div style="color:var(--muted);font-size:14px;margin-bottom:6px">'+whenText(t.at)+'</div>'+
+    '<a class="btn teal bigbtn" data-cal="'+id+'" href="'+esc(gcalUrl(t))+'" target="_blank" rel="noopener">'+ic('bell')+'Google Calendar-এ রিমাইন্ডার সেভ করুন</a>'+
+    '<div style="font-size:13px;color:var(--muted);line-height:1.6">সেখানে Save চাপলেই হবে; ফোনে Google Calendar অ্যাপ থাকলে সময়মতো নোটিফিকেশন আসবে।</div>'+
+    '<div class="row" style="justify-content:flex-end"><button class="btn ghost" data-act="close">পরে করব</button></div>');
+}
+
+const A = {
+  go: d => go(d.view, d.id),
+  search: () => openSearch(),
+  close: () => closeSheet(),
+  scrim: (d, el, ev) => { if(ev.target === el) closeSheet(); },
+  twist: d => { st.open[d.id] = !st.open[d.id]; tryLS('hn-open', st.open); renderSide(); },
+  filter: d => { st.filter = d.f; render(); },
+  open: d => { closeSheet(); openPage(d.id); },
+  goFolder: d => go('folder', d.id),
+  back: () => { if(pushed > 0) { try { history.back(); return; } catch(e){} } goBack(); },
+  menu: d => itemMenu(d.id),
+  capNote: () => { const v = capture(); if(!v) return; const lines = v.split('\n'); newPage(null, {inbox:true, title: lines[0].slice(0,200), body: lines.slice(1).join('\n').trim() || (lines[0].length > 200 ? lines[0] : '')}); markWrote(); toast('নোট রাখা হয়েছে, "দ্রুত নোট"-এ পাবেন'); },
+  capTask: d => { const v = capture(); if(!v) return; const id = uid(); put('tasks', id, {title:v, when:d.when, priority:'medium', done:false, created:Date.now()}); toast((d.when==='near'?'নিকটস্থ':'দূরের')+' কাজে যোগ হয়েছে'); },
+  addLog: () => { const el = $('#logIn'); const v = el && el.value.trim(); if(!v) return; const k = dkey(); const cur = S.daily[k] || {lines:[]}; put('daily', k, {lines: (cur.lines||[]).concat([{t:Date.now(), text:v}])}); el.value = ''; setTimeout(() => { const n = $('#logIn'); n && n.focus(); }, 30); },
+  expand: d => { patch('items', d.id, {inbox:false}); toast('খাতায় সরানো হলো। এখন ফোল্ডার বেছে নিন।'); st.view = 'page'; st.id = d.id; render(); folderPicker(d.id); },
+  newPage: d => { const id = newPage(d.parent || null); go('page', id); setTimeout(() => { const t = $('#edTitle'); t && t.focus(); }, 40); },
+  newFolder: d => askText('নতুন ফোল্ডারের নাম', '', 'mkFolder', ' data-parent="'+(d.parent || (st.view==='folder' ? (st.id||'') : ''))+'"'),
+  mkFolder: d => { const v = ($('#askIn')||{}).value; if(!v || !v.trim()) return; const id = uid(), t = Date.now(); const parent = d.parent || null; put('items', id, {type:'folder', title:v.trim(), parentId:parent, color:COLORS[Object.keys(S.items).length % COLORS.length], order:t, created:t, updated:t}); if(parent){ st.open[parent] = true; tryLS('hn-open', st.open); } closeSheet(); if(d.moveid){ patch('items', d.moveid, {parentId:id, inbox:false}); toast('সরানো হয়েছে'); } },
+  newFolderThenMove: d => askText('নতুন ফোল্ডারের নাম', '', 'mkFolder', ' data-moveid="'+d.id+'"'),
+  rename: d => askText('নতুন নাম', (S.items[d.id]||{}).title, 'doRename', ' data-id="'+d.id+'"'),
+  doRename: d => { const v = ($('#askIn')||{}).value; if(v == null) return; patch('items', d.id, {title:v.trim(), updated:Date.now()}); closeSheet(); },
+  tog: d => { const i = S.items[d.id]; if(!i) return; patch('items', d.id, d.k === 'pinned' ? {pinned: !i.pinned, pinnedAt: i.pinned ? null : Date.now()} : {[d.k]: !i[d.k]}); if(d.k === 'pinned' && i.videoId && S.videos[i.videoId]) patch('videos', i.videoId, {pinned: !i.pinned, pinnedAt: i.pinned ? null : Date.now()}); closeSheet(); toast(d.k === 'pinned' ? (i.pinned ? 'পিন সরানো হলো' : 'পিন করা হলো') : (i.fav ? 'প্রিয় থেকে সরানো হলো' : 'প্রিয়তে রাখা হলো')); if(st.view === 'page'){ st.view='page'; renderForce(); } },
+  moveTo: d => folderPicker(d.id),
+  doMove: d => { patch('items', d.id, {parentId: d.to || null, inbox:false, updated:Date.now()}); closeSheet(); toast('সরানো হয়েছে'); renderForce(); },
+  dup: d => { const i = S.items[d.id]; if(!i) return; const t = Date.now(); const id = uid(); const c = Object.assign({}, i, {title:(i.title||'')+' (কপি)', created:t, updated:t, pinned:false}); delete c.id; put('items', id, c); if(i.type === 'folder'){ const copyKids = (from, to) => kids(from).forEach(k => { const nid = uid(); const kc = Object.assign({}, k, {parentId:to, created:t, updated:t}); delete kc.id; put('items', nid, kc); if(k.type==='folder') copyKids(k.id, nid); }); copyKids(i.id, id); } closeSheet(); toast('কপি বানানো হয়েছে'); },
+  archive: d => { const i = S.items[d.id]; patch('items', d.id, {archived: !i.archived}); closeSheet(); toast(i.archived ? 'আর্কাইভ থেকে ফেরত আনা হলো' : 'আর্কাইভে রাখা হলো'); if(st.view==='page' && st.id===d.id && !i.archived) go('folder', i.parentId); },
+  trash: d => { const i = S.items[d.id]; patch('items', d.id, {trashedAt: Date.now()}); closeSheet(); toast('ট্র্যাশে রাখা হলো। "ট্র্যাশ" থেকে ফেরত আনা যাবে।'); if((st.view==='page'||st.view==='folder') && st.id===d.id) go(i.inbox?'inbox':'folder', i.parentId); },
+  restore: d => { patch('items', d.id, {trashedAt: null}); closeSheet(); toast('ফেরত আনা হয়েছে'); renderForce(); },
+  purge: d => openSheet('<h3>চিরতরে মুছবেন?</h3><div style="color:var(--muted);font-size:14px">এটা আর ফেরত আনা যাবে না'+(S.items[d.id] && S.items[d.id].type==='folder'?', ভেতরের সব লেখাসহ':'')+'।</div><div class="row" style="justify-content:flex-end"><button class="btn ghost" data-act="close">বাতিল</button><button class="btn" style="background:var(--urgent);border-color:var(--urgent);color:#fff" data-act="doPurge" data-id="'+d.id+'">মুছে ফেলুন</button></div>'),
+  doPurge: d => { const del = id => { items().filter(x => x.parentId === id).forEach(x => del(x.id)); remove('items', id); }; del(d.id); closeSheet(); toast('মুছে ফেলা হয়েছে'); },
+  emptyTrash: () => openSheet('<h3>ট্র্যাশ খালি করবেন?</h3><div style="color:var(--muted);font-size:14px">ট্র্যাশের সব কিছু চিরতরে মুছে যাবে।</div><div class="row" style="justify-content:flex-end"><button class="btn ghost" data-act="close">বাতিল</button><button class="btn" style="background:var(--urgent);border-color:var(--urgent);color:#fff" data-act="doEmpty">খালি করুন</button></div>'),
+  doEmpty: () => { const del = id => { items().filter(x => x.parentId === id).forEach(x => del(x.id)); remove('items', id); }; items().filter(i => i.trashedAt).forEach(i => S.items[i.id] && del(i.id)); closeSheet(); toast('ট্র্যাশ খালি হয়েছে'); },
+  color: d => { patch('items', d.id, {color:d.c}); itemMenu(d.id); },
+  taskTab: d => { st.taskTab = d.t; if(st.view !== 'tasks'){ go('tasks'); return; } render(); },
+  addTask: () => { const el = $('#tIn'); const v = el && el.value.trim(); if(!v){ el && el.focus(); return; } const at = ($('#tAt')||{}).value || ''; const id = uid(); put('tasks', id, {title:v, when:st.taskTab, priority:$('#tPrio').value, at, done:false, created:Date.now()}); el.value=''; if($('#tAt')) $('#tAt').value=''; document.querySelectorAll('[data-act="remQuick"][data-t="tAt"]').forEach(b => b.classList.toggle('on', b.dataset.k === '')); if(at) remindSheet(id); else setTimeout(() => { const n = $('#tIn'); n && n.focus(); }, 30); },
+  newReminder: () => { st.taskTab = 'near'; go('tasks'); setTimeout(() => { const n = $('#tIn'); if(n){ n.focus(); n.scrollIntoView({block:'center'}); } }, 60); },
+  remQuick: (d, el) => {
+    let v = '';
+    if(d.k){ const x = new Date(); let h = 9;
+      if(d.k === 'tonight'){ h = 19; if(x.getHours() >= 19) x.setDate(x.getDate()+1); }
+      else if(d.k === 'tmr') x.setDate(x.getDate()+1);
+      else x.setDate(x.getDate()+7);
+      v = dkey(x)+'T'+pad(h)+':00'; }
+    const inp = document.getElementById(d.t); if(inp) inp.value = v;
+    document.querySelectorAll('[data-act="remQuick"][data-t="'+d.t+'"]').forEach(b => b.classList.toggle('on', b === el));
+  },
+  remSet: d => { const t = S.tasks[d.id]; if(!t) return; openSheet('<h3>'+ic('bell')+' কখন মনে করাব?</h3><div style="font-size:15px;font-weight:600">'+esc(t.title)+'</div><div class="chips">'+remChips('rAt')+'</div><input type="datetime-local" class="field" id="rAt" aria-label="রিমাইন্ডারের দিন ও সময়"><div class="row" style="justify-content:flex-end"><button class="btn ghost" data-act="close">বাতিল</button><button class="btn pri" data-act="remSave" data-id="'+d.id+'">পরের ধাপ</button></div>'); },
+  remSave: d => { const v = ($('#rAt')||{}).value; if(!v){ toast('একটা সময় বেছে নিন'); return; } patch('tasks', d.id, {at:v}); remindSheet(d.id); },
+  setv: d => { setSet({[d.k]: d.v}); render(); },
+  fsort: d => { setSet({folderSort: d.v}); render(); },
+  todayMove: d => { const x = sets(); const o = x.todayOrder.slice(); const i = o.indexOf(d.k), j = i + (+d.dir); if(j < 0 || j >= o.length) return; [o[i], o[j]] = [o[j], o[i]]; setSet({todayOrder: o}); render(); },
+  imgPick: async () => { saveImgRange(); const a = await getAssets(); if(!a){ toast('ছবি যোগ করা যাচ্ছে শুধু claude.ai-তে সাইন ইন করা অবস্থায়।'); return; } const i = $('#imgIn'); if(i){ i.value = ''; i.click(); } },
+  fmt: d => { const b = $('#edBody'); if(!b) return; if(!b.contains(document.getSelection().anchorNode)) b.focus(); try { document.execCommand('styleWithCSS', false, true); } catch(e){} document.execCommand(d.c, false, d.v || null); edDirty(); },
+  driveNow: () => { drv.dirty = true; backupToDrive(true); },
+  toggleTask: d => { const t = S.tasks[d.id]; if(!t) return; patch('tasks', d.id, {done: !t.done, doneAt: t.done ? null : Date.now()}); if(!t.done) autoLog('✓ কাজ হয়েছে: '+t.title, 't-'+d.id); else unLog('t-'+d.id); },
+  taskMenu: d => taskSheet(d.id),
+  tPrioSet: d => { patch('tasks', d.id, {priority:d.p}); taskSheet(d.id); },
+  tSwap: d => { const t = S.tasks[d.id]; patch('tasks', d.id, {when: t.when==='near'?'far':'near'}); closeSheet(); toast('সরানো হয়েছে'); },
+  saveTask: d => { const v = $('#tT').value.trim(); const at = $('#tA').value || ''; const before = (S.tasks[d.id]||{}).at || ''; if(v) patch('tasks', d.id, {title:v, at}); if(at && at !== before && !(before.length <= 10 && at === before+'T09:00')) remindSheet(d.id); else closeSheet(); },
+  delTask: d => { remove('tasks', d.id); closeSheet(); toast('কাজ মুছে ফেলা হয়েছে'); },
+  tToPage: d => { const t = S.tasks[d.id]; const id = newPage(null, {inbox:true, title:t.title}); closeSheet(); go('page', id); },
+  clearDone: () => { Object.values(S.tasks).filter(t => t.done && t.when === st.taskTab).forEach(t => remove('tasks', t.id)); toast('পরিষ্কার হয়েছে'); },
+  addVideo: () => { const el = $('#vIn'); const v = el && el.value.trim(); if(!v){ el && el.focus(); return; } put('videos', uid(), {title:v, stage:'idea', channel:$('#vCh').value, format:$('#vFm').value, created:Date.now()}); el.value=''; },
+  video: d => videoSheet(d.id),
+  vFilt: d => { st[d.k] = d.v || null; render(); },
+  vStage: d => { const v0 = S.videos[d.id]; patch('videos', d.id, {stage:d.s, doneAt: d.s === 'up' ? (v0 && v0.doneAt || Date.now()) : null}); videoSheet(d.id); },
+  saveVideo: d => { patch('videos', d.id, {title:$('#vT').value.trim()||S.videos[d.id].title, channel:$('#vC').value, format:$('#vF').value, date:$('#vD').value||'', notes:$('#vN').value}); closeSheet(); toast('সেভ হয়েছে'); },
+  vPin: d => { const v = S.videos[d.id]; if(!v) return; const on = !v.pinned; patch('videos', d.id, {pinned:on, pinnedAt: on ? Date.now() : null}); if(v.pageId && S.items[v.pageId]) patch('items', v.pageId, {pinned:on, pinnedAt: on ? Date.now() : null}); toast(on ? 'পিন করা হলো, সাইডবারের উপরে থাকবে' : 'পিন সরানো হলো'); if(d.sheet) videoSheet(d.id); },
+  vWrite: d => { const v = S.videos[d.id]; if(!v) return; let pid = v.pageId && S.items[v.pageId] && !trashed(S.items[v.pageId]) ? v.pageId : null;
+    if(!pid){ pid = newPage(S.items['f-script'] ? 'f-script' : null, {title: v.title||'', body: v.notes||'', status:'working', videoId: d.id, pinned: !!v.pinned, pinnedAt: v.pinned ? Date.now() : null}); patch('videos', d.id, {pageId: pid}); }
+    closeSheet(); openPage(pid); },
+  delVideo: d => { remove('videos', d.id); closeSheet(); toast('ভিডিও মুছে ফেলা হয়েছে'); },
+  tlYear: d => { st.year = d.y; st.month = null; render(); },
+  tlMonth: d => { st.month = d.m; render(); },
+  newMap: () => askText('মাঝখানের মূল ভাবনা কী?', '', 'mkMap'),
+  mkMap: () => { const v = ($('#askIn')||{}).value; if(!v || !v.trim()) return; const id = uid(); put('maps', id, {nodes:[{id:'r', text:v.trim(), parent:null}], updated:Date.now()}); closeSheet(); go('map', id); },
+  mmNode: d => { const m = S.maps[st.id]; const n = m && m.nodes.find(x => x.id === d.id); if(!n) return; openSheet('<h3>'+esc(n.text)+'</h3><input class="field" id="askIn" placeholder="নতুন ডাল (এর নিচে)" data-enter="mmAdd" data-id="'+d.id+'"><div class="row"><button class="btn pri" data-act="mmAdd" data-id="'+d.id+'">'+ic('plus')+'ডাল যোগ</button><button class="btn" data-act="mmRename" data-id="'+d.id+'">নাম বদলান</button>'+(n.parent?'<button class="btn ghost" style="color:var(--urgent)" data-act="mmDel" data-id="'+d.id+'">মুছুন</button>':'')+'</div>'); },
+  mmAdd: d => { const v = ($('#askIn')||{}).value; if(!v || !v.trim()) return; const m = S.maps[st.id]; put('maps', st.id, {nodes: m.nodes.concat([{id:uid(), text:v.trim(), parent:d.id}]), updated:Date.now()}); const i = $('#askIn'); i.value=''; i.focus(); },
+  mmRename: d => { const m = S.maps[st.id]; const n = m.nodes.find(x => x.id === d.id); askText('নতুন নাম', n.text, 'mmDoRename', ' data-id="'+d.id+'"'); },
+  mmDoRename: d => { const v = ($('#askIn')||{}).value; if(!v) return; const m = S.maps[st.id]; put('maps', st.id, {nodes: m.nodes.map(x => x.id === d.id ? Object.assign({}, x, {text:v.trim()}) : x), updated:Date.now()}); closeSheet(); },
+  mmDel: d => { const m = S.maps[st.id]; const gone = new Set([d.id]); let grew = true; while(grew){ grew = false; m.nodes.forEach(x => { if(x.parent && gone.has(x.parent) && !gone.has(x.id)){ gone.add(x.id); grew = true; } }); } put('maps', st.id, {nodes: m.nodes.filter(x => !gone.has(x.id)), updated:Date.now()}); closeSheet(); },
+  delMap: d => openSheet('<h3>ম্যাপটা মুছবেন?</h3><div class="row" style="justify-content:flex-end"><button class="btn ghost" data-act="close">বাতিল</button><button class="btn" style="background:var(--urgent);border-color:var(--urgent);color:#fff" data-act="doDelMap" data-id="'+d.id+'">মুছুন</button></div>'),
+  doDelMap: d => { remove('maps', d.id); closeSheet(); go('maps'); },
+  sFilter: (d, el) => { sFilter = d.f; document.querySelectorAll('[data-act="sFilter"]').forEach(b => b.classList.toggle('on', b === el)); runSearch($('#sIn').value); },
+  exportJson: () => offerFile('hasans-notebook-'+dkey()+'.json', JSON.stringify(exportAll(), null, 1)),
+  exportMd: () => {
+    let md = "# Hasan's Notebook\n\n";
+    const walk = (pid, depth) => kids(pid).forEach(k => { if(k.type === 'folder'){ md += '#'.repeat(Math.min(depth+2, 6))+' '+k.title+'\n\n'; walk(k.id, depth+1); } else { md += '#'.repeat(Math.min(depth+2, 6))+' '+(k.title||'শিরোনামহীন')+'\n\n'+(k.body||'')+'\n\n'; } });
+    walk(null, 0);
+    const inbox = items().filter(i => isInbox(i) && visible(i));
+    if(inbox.length) md += '## দ্রুত নোট\n\n'+inbox.map(i => '- '+i.title+(i.body?' — '+i.body:'')).join('\n')+'\n';
+    offerFile('hasans-notebook-'+dkey()+'.md', md);
+  }
+};
+function renderForce(){ const ae = document.activeElement; if(ae && ae.blur) ae.blur(); render(); }
+
+/* ---------- editor saving ---------- */
+let saveT = null, pendingEd = null;
+function edSave(){
+  const ed = $('#editor'); if(!ed) return;
+  const id = ed.dataset.id; if(!S.items[id]) return;
+  const tags = $('#edTags').value.split(/[,،]/).map(s => s.trim()).filter(Boolean);
+  const body = edText();
+  let html = cleanHtml($('#edBody').innerHTML);
+  if(!/<(b|strong|i|em|u|span|font|h3|ul|ol|img)\b/i.test(html)) html = null;
+  const before = S.items[id];
+  const changes = {title:$('#edTitle').value, body, status:$('#edStatus').value, priority:$('#edPrio').value || null, deadline:$('#edDeadline').value || null, progress:+$('#edProgress').value, tags, html};
+  const same = (a, b) => JSON.stringify(a == null ? null : a) === JSON.stringify(b == null ? null : b);
+  if(Object.keys(changes).every(k => k === 'status' ? (before.status||'idea') === changes.status : k === 'progress' ? (+before.progress||0) === changes.progress : k === 'tags' ? same(before.tags||[], tags) : k === 'html' ? (before.html||null) === html : k === 'title' || k === 'body' ? (before[k]||'') === changes[k] : same(before[k], changes[k]))) return;
+  changes.updated = Date.now();
+  if(changes.status === 'done' && !before.completedAt) changes.completedAt = Date.now();
+  if(changes.status === 'done' && (before.status||'idea') !== 'done') autoLog('✓ লেখা সম্পন্ন: '+(changes.title||'শিরোনামহীন'), 'p-'+id);
+  patch('items', id, changes);
+  if(body !== before.body) markWrote();
+  const s = $('#edSaved'); if(s) s.textContent = 'সেভ হয়েছে';
+}
+function edDirty(){ clearTimeout(saveT); const s = $('#edSaved'); if(s) s.textContent = 'লেখা হচ্ছে…'; const c = $('#edCount'); if(c) c.textContent = bn(words(edText()))+' শব্দ'; saveT = setTimeout(edSave, 700); }
+
+/* ---------- drag to move / reorder (Finder style) ---------- */
+const dg = {el:null, id:null, sx:0, sy:0, on:false, timer:null, ghost:null, tgt:null, touch:false, swallow:false};
+function dgClear(){ document.querySelectorAll('.drop-in,.drop-before,.drop-after').forEach(e => e.classList.remove('drop-in','drop-before','drop-after')); }
+function dgOkInto(fid){ const it = S.items[dg.id]; if(!it) return false; if(fid === dg.id) return false; if((it.parentId||'') === (fid||'') && !it.inbox) return false; if(fid && S.items[fid] && chain(S.items[fid]).some(a => a.id === dg.id)) return false; return true; }
+function dgStart(){ const it = S.items[dg.id]; if(!it){ dg.el = null; return; } dg.on = true; dg.ghost = document.createElement('div'); dg.ghost.className = 'dghost'; dg.ghost.textContent = it.title || 'শিরোনামহীন'; document.body.appendChild(dg.ghost); dg.el.classList.add('dragging'); try { navigator.vibrate && navigator.vibrate(15); } catch(e){} }
+function dgMove(x, y){
+  dg.ghost.style.transform = 'translate('+(x+14)+'px,'+(y+10)+'px)'; dgClear(); dg.tgt = null;
+  const under = document.elementFromPoint(x, y); if(!under) return;
+  const row = under.closest('[data-drag]'), fold = under.closest('[data-dropfolder]');
+  if(row && row !== dg.el){
+    const r = row.getBoundingClientRect(), rel = (y - r.top) / r.height;
+    const isF = row.hasAttribute('data-dropfolder'), canSort = row.dataset.sib != null && row.dataset.sib === dg.el.dataset.sib && row.parentElement === dg.el.parentElement;
+    if(isF && (!canSort || (rel > .25 && rel < .75))){ if(dgOkInto(row.dataset.dropfolder)){ dg.tgt = {type:'in', fid:row.dataset.dropfolder}; row.classList.add('drop-in'); } return; }
+    if(canSort){ const after = rel >= .5; dg.tgt = {type:'sort', row, after}; row.classList.add(after ? 'drop-after' : 'drop-before'); return; }
+  }
+  if(fold && fold !== dg.el && dgOkInto(fold.dataset.dropfolder)){ dg.tgt = {type:'in', fid:fold.dataset.dropfolder}; fold.classList.add('drop-in'); }
+}
+function dgEnd(cancel){
+  clearTimeout(dg.timer);
+  if(dg.on){
+    const t = cancel ? null : dg.tgt, el = dg.el, id = dg.id;
+    dgClear(); dg.ghost && dg.ghost.remove(); el && el.classList.remove('dragging');
+    dg.swallow = true; setTimeout(() => { dg.swallow = false; }, 80);
+    if(t && t.type === 'in'){ patch('items', id, {parentId: t.fid || null, inbox:false}); toast('সরানো হয়েছে'); }
+    else if(t && t.type === 'sort'){
+      const ids = Array.from(t.row.parentElement.children).filter(e => e.dataset && e.dataset.drag && e.dataset.sib === el.dataset.sib).map(e => e.dataset.drag).filter(x => x !== id);
+      ids.splice(ids.indexOf(t.row.dataset.drag) + (t.after ? 1 : 0), 0, id);
+      ids.forEach((x, i) => { if(S.items[x] && S.items[x].order !== (i+1)*10) patch('items', x, {order:(i+1)*10}); });
+    }
+  }
+  dg.on = false; dg.el = null; dg.id = null; dg.ghost = null; dg.tgt = null;
+}
+document.addEventListener('pointerdown', ev => {
+  if(ev.button) return;
+  const el = ev.target.closest && ev.target.closest('[data-drag]');
+  if(!el || ev.target.closest('input,textarea,select,[contenteditable]')) return;
+  dg.el = el; dg.id = el.dataset.drag; dg.sx = ev.clientX; dg.sy = ev.clientY; dg.touch = ev.pointerType !== 'mouse'; dg.on = false;
+  clearTimeout(dg.timer);
+  if(dg.touch) dg.timer = setTimeout(() => { if(dg.el){ dgStart(); if(dg.on) dgMove(dg.sx, dg.sy); } }, 450);
+});
+document.addEventListener('pointermove', ev => {
+  if(!dg.el) return;
+  const far = Math.abs(ev.clientX - dg.sx) + Math.abs(ev.clientY - dg.sy) > 8;
+  if(!dg.on){ if(dg.touch){ if(far){ clearTimeout(dg.timer); dg.el = null; } return; } if(!far) return; dgStart(); if(!dg.on) return; }
+  ev.preventDefault(); dgMove(ev.clientX, ev.clientY);
+});
+document.addEventListener('touchmove', ev => { if(dg.on) ev.preventDefault(); }, {passive:false});
+document.addEventListener('pointerup', () => dgEnd(false));
+document.addEventListener('pointercancel', () => dgEnd(true));
+document.addEventListener('click', ev => { if(dg.swallow){ ev.preventDefault(); ev.stopPropagation(); dg.swallow = false; } }, true);
+
+document.addEventListener('mousedown', ev => { if(ev.target.closest && ev.target.closest('.fmt')) ev.preventDefault(); });
+document.addEventListener('paste', ev => { const b = ev.target.closest && ev.target.closest('#edBody'); if(!b) return; ev.preventDefault();
+  const imgs = Array.from((ev.clipboardData && ev.clipboardData.files) || []).filter(f => /^image\//.test(f.type)); if(imgs.length){ saveImgRange(); addImages(imgs); return; } const tx = (ev.clipboardData || window.clipboardData).getData('text/plain'); document.execCommand('insertText', false, tx); });
+
+/* ---------- events ---------- */
+document.addEventListener('click', ev => {
+  const cal = ev.target.closest && ev.target.closest('a[data-cal]');
+  if(cal){ const t = S.tasks[cal.dataset.cal]; if(t && t.at) patch('tasks', t.id, {cal: t.at}); if($('#layer').innerHTML) setTimeout(closeSheet, 400); return; }
+  const el = ev.target.closest('[data-act]'); if(!el) return;
+  const act = el.dataset.act; if(!A[act]) return;
+  if(el.tagName === 'A') return;
+  if(act !== 'scrim') ev.preventDefault();
+  if(saveT && act !== 'scrim'){ clearTimeout(saveT); saveT = null; edSave(); }
+  A[act](el.dataset, el, ev);
+});
+document.addEventListener('contextmenu', ev => { if(dg.on || dg.timer && dg.el){ ev.preventDefault(); if(dg.on) return; } const el = ev.target.closest('[data-menu]'); if(el){ ev.preventDefault(); itemMenu(el.dataset.menu); return; } const t = ev.target.closest('[data-tmenu]'); if(t){ ev.preventDefault(); taskSheet(t.dataset.tmenu); } });
+document.addEventListener('input', ev => {
+  const t = ev.target;
+  if(t.matches && t.matches('textarea[data-auto]')){ t.style.height = 'auto'; t.style.height = t.scrollHeight + 'px'; }
+  if(t.closest && t.closest('#editor')){ if(t.id === 'edProgress'){ const l = t.parentElement.firstChild; if(l && l.nodeType === 3) l.textContent = 'প্রগ্রেস '+bn(t.value)+'%'; } edDirty(); }
+  if(t.id === 'sIn') runSearch(t.value);
+});
+document.addEventListener('change', ev => {
+  if(ev.target.id === 'imgIn'){ addImages(ev.target.files); return; }
+  const t = ev.target;
+  if(t.closest && t.closest('#editor')){ clearTimeout(saveT); edSave(); }
+  if(t.dataset && t.dataset.dash){ const off = Object.assign({}, sets().dashOff || {}); if(t.checked) delete off[t.dataset.dash]; else off[t.dataset.dash] = true; setSet({dashOff: off}); }
+  if(t.dataset && t.dataset.today){ const off = Object.assign({}, sets().todayOff); if(t.checked) delete off[t.dataset.today]; else off[t.dataset.today] = true; setSet({todayOff: off}); }
+  if(t.dataset && t.dataset.setk){ setSet({[t.dataset.setk]: t.checked}); }
+  if(t.id === 'setFormats' || t.id === 'setChannels'){ const l = [...new Set(t.value.split('\n').map(x => x.trim()).filter(Boolean))].slice(0, 20); setSet({[t.id === 'setFormats' ? 'formats' : 'channels']: l.length ? l : null}); toast('সেভ হয়েছে'); }
+  if(t.id === 'setName'){ setSet({name: t.value.trim()}); toast('সেভ হয়েছে'); }
+  if(t.id === 'setHome'){ setSet({home: t.value}); toast('সেভ হয়েছে'); }
+  if(t.id === 'driveAuto'){ put('meta', 'drive', Object.assign({}, driveMeta(), {auto: t.checked}), true); if(t.checked && drv.dirty) markDirty(); toast(t.checked ? 'নিজে থেকে ব্যাকআপ চালু' : 'নিজে থেকে ব্যাকআপ বন্ধ'); }
+  if(t.id === 'impFile' && t.files && t.files[0]){
+    const r = new FileReader();
+    r.onload = () => {
+      try {
+        const data = JSON.parse(r.result); let n = 0;
+        COLS.forEach(c => { const src = data[c]; if(src && typeof src === 'object') Object.keys(src).forEach(id => { if(/^[A-Za-z0-9_\-.~:@+]{1,180}$/.test(id) && src[id] && typeof src[id] === 'object'){ put(c, id, src[id]); n++; } }); });
+        toast(bn(n)+' টা জিনিস ফেরত আনা হয়েছে');
+      } catch(e){ toast('ফাইলটা পড়া যায়নি। Hasan\'s Notebook-এর .json ব্যাকআপ বেছে নিন।'); }
+    };
+    r.readAsText(t.files[0]);
+  }
+});
+document.addEventListener('focusout', ev => { if(ev.target.closest && ev.target.closest('#editor') && saveT){ clearTimeout(saveT); saveT = null; edSave(); } });
+document.addEventListener('keydown', ev => {
+  if((ev.ctrlKey || ev.metaKey) && ev.key.toLowerCase() === 'k'){ ev.preventDefault(); openSearch(); return; }
+  if(ev.key === 'Escape' && $('#layer').innerHTML){ closeSheet(); return; }
+  if(((ev.metaKey && ev.key === '[') || (ev.altKey && ev.key === 'ArrowLeft')) && !(ev.target.isContentEditable || /INPUT|TEXTAREA|SELECT/.test(ev.target.tagName))){ ev.preventDefault(); A.back(); return; }
+  const t = ev.target;
+  if(ev.key === 'Enter' && !ev.shiftKey){
+    if(t.id === 'cap' && st.view === 'today'){ ev.preventDefault(); A.capNote(); return; }
+    if(t.id === 'cap' && st.view === 'inbox' && (ev.ctrlKey || ev.metaKey)){ ev.preventDefault(); A.capNote(); return; }
+    if(t.dataset && t.dataset.enter && A[t.dataset.enter]){ ev.preventDefault(); A[t.dataset.enter](t.dataset, t, ev); return; }
+    if(t.id === 'sIn'){ const first = $('#sRes [data-act]'); if(first){ ev.preventDefault(); first.click(); } return; }
+    if(t.id === 'edTitle'){ ev.preventDefault(); $('#edBody').focus(); return; }
+  }
+  if(ev.key === 'Enter' && t.closest && t.closest('.mm-node')){ ev.preventDefault(); A.mmNode(t.closest('.mm-node').dataset); }
+  if(ev.altKey && ev.key.toLowerCase() === 'n'){ ev.preventDefault(); go('inbox'); setTimeout(() => { const c = $('#cap'); c && c.focus(); }, 40); }
+});
+window.addEventListener('beforeunload', () => { if(saveT){ clearTimeout(saveT); edSave(); } });
+const flushAll = () => { if(saveT){ clearTimeout(saveT); saveT = null; edSave(); } if(lsT) flushLocal(); };
+window.addEventListener('pagehide', flushAll);
+document.addEventListener('visibilitychange', () => { if(document.hidden) flushAll(); });
+document.addEventListener('visibilitychange', () => { if(document.hidden && drv.dirty && driveMeta().auto){ clearTimeout(drv.timer); autoBackup(); } });
+
+renderSide(); renderTabs();
+initStore();
+})();
+</script>
+
+<script>if('serviceWorker' in navigator && !window.claude) navigator.serviceWorker.register('sw.js').catch(()=>{});</script>
+</body></html>
